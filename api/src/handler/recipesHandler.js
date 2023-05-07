@@ -1,11 +1,20 @@
 //AQUI IMPORTAMOS CONTROLADORES
 const getAllRecipes = require('../controllers/getAllRecipes.js');
 
-const getRecipe = async (req, res) => {
-    const {id} = req.params 
+const getRecipes = async (req, res) => {
+    const {name} = req.query;
     try {
-        const response = await getAllRecipes(id)
-        console.log(response)
+        const response = await getAllRecipes(name);
+        res.status(200).json(response)
+    } catch (error) {
+        // aqui marca el error
+        res.status(400).json({error: error.message, descripcion: 'error en getRecipes'})
+    }
+}
+
+const getRecipe = async (req, res) => {
+    try { 
+      const response= "hola"  
         res.status(200).json(response)
     } catch (error) {
         // aqui marca el error
@@ -13,15 +22,6 @@ const getRecipe = async (req, res) => {
     }
 }
 
-const getRecipes = async (req, res) => {
-    try {
-        const recipes = []
-        res.status(200).json(recipes)
-    } catch (error) {
-        // aqui marca el error
-        res.status(400).json({error: error.message, descripcion: 'error en getRecipes'})
-    }
-}
 
 const postRecipes = async() => {
     try {
