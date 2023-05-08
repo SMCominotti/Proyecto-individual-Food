@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
        healtScore:{
         type: DataTypes.FLOAT,
        },
-       stepByStep: {
+       step: {
         type: DataTypes.JSON,
        },
        created: {
