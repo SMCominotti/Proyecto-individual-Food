@@ -16,7 +16,7 @@ const { Op } = require('sequelize');
       summary:element.summary,
       healtScore: element.healtScore,
       step: element.step,
-      created: true, // actualización de la propiedad created para la receta de la API
+      created: false, 
     };
   });
 
