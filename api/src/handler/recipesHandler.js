@@ -1,16 +1,17 @@
 //AQUI IMPORTAMOS CONTROLADORES
 const getAllRecipes = require('../controllers/getAllRecipes.js');
 
+
 const getRecipes = async (req, res) => {
-    const {name} = req.query;
+    const { name } = req.query;
     try {
-        const response = await getAllRecipes(name);
-        res.status(200).json(response)
+      const response = await getAllRecipes(name);
+      res.status(200).json(response);
     } catch (error) {
-        // aqui marca el error
-        res.status(400).json({error: error.message, descripcion: 'error en getRecipes'})
+      res.status(400).json({ error: error.message, descripcion: 'No se encontraron recetas.' });
     }
-}
+  };
+  
 
 const getRecipe = async (req, res) => {
     try { 
