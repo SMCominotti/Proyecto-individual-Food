@@ -1,5 +1,17 @@
 //AQUI IMPORTAMOS CONTROLADORES
-const getAllDiets = require('../controllers/getAllDiets');
+const getAllDiets = require('../controllers/diets/getAllDiets');
+
+const getDiets = async(req,res) => {
+    try {
+        const response= await getAllDiets();
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(400).json({error: error.message, description:"error en getDiets"})
+    }
+}
+
+
+//___________________________________________________________
 
 const getDiet = async(req,res) => {
     const {id} = req.params;
@@ -12,16 +24,7 @@ const getDiet = async(req,res) => {
     }
 }
 
-const getDiets = async(req,res) => {
-    try {
-        // aquí salió todo bien
-        const diets = [];
-        res.status(200).json(diets)
-    } catch (error) {
-        //aquí está el error
-        res.status(400).json({error: error.message, description:"error en getDiets"})
-    }
-}
+
 
 const postDiets = async() => {
     try {

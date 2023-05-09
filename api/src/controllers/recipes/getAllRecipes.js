@@ -2,30 +2,14 @@
 const axios = require ('axios')
 require('dotenv').config();
 const {API_KEY} = process.env;
-const {Recipes} = require ('../db')
+const {Recipes} = require ('../../db')
 const { Op } = require('sequelize');
 
-
-  
-  const cleanArray = (arr) => 
-  arr.map((element) => {
-    return {
-      name: element.name,
-      id: element.id,
-      image: element.image,
-      summary:element.summary,
-      healtScore: element.healtScore,
-      step: element.step,
-      created: false, 
-    };
-  });
-
+ 
 
 module.exports = async (name) => {
   if (name) {
-    const recipesApiRaw = (
-      await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)).data; // Se busca si existe name en la API. La respueta se almacena en la variable recipesApi.
-    const recipesApi= cleanArray(recipesApiRaw);
+    const recipesApi = (await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)).data; // Se busca si existe name en la API. La respueta se almacena en la variable recipesApi.
     const recipesDb = await Recipes.findAll({// luego busco todo en la base de datos y hago un find en donde busque recetas que coincidan con el nombre independientemente de mayúsculas y minúsculas
       where: {
         name: {
