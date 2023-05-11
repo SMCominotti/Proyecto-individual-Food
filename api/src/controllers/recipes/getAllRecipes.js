@@ -1,37 +1,64 @@
-
-const axios = require ('axios')
+const axios = require('axios');
 require('dotenv').config();
-const {API_KEY} = process.env;
-const {Recipes} = require ('../../db')
+const { API_KEY } = process.env;
+const { Recipes, Diets } = require('../../db');
 const { Op } = require('sequelize');
 
- 
+module.exports = async (title) => {
+  const cleanArray = (array) => {
+    return array.map((elem) => {
+      return {
+        id: elem.id,
+        name: elem.title,
+        image: elem.image,
+        summary: elem.summary,
+        healthScore: elem.healthScore,
+        steps: elem.analyzedInstructions
+          .flatMap((instruction) => instruction.steps)
+          .filter((step) => step && step.number && step.step)
+          .map(({ number, step }) => ({ number, step })),
+      };
+    });
+  };
 
-module.exports = async (name) => {
-  if (name) {
-    const recipesApi = (await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`)).data; // Se busca si existe name en la API. La respueta se almacena en la variable recipesApi.
-    const recipesDb = await Recipes.findAll({// luego busco todo en la base de datos y hago un find en donde busque recetas que coincidan con el nombre independientemente de mayúsculas y minúsculas
+  if (title) {
+    const recipesApi = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    const recipesDb = await Recipes.findAll({
       where: {
         name: {
-          [Op.iLike]: `%${name}%`,   
+          [Op.iLike]: `%${title}%`,
+        },
+      },
+      include: {
+        model: Diets,
+        attributes: ['name'],
+        through: {
+          attributes: [],
         },
       },
     });
-    const response = [...recipesApi, ...recipesDb]; //concateno las respuestas de la API y la base de datos. Las guardo en la variable response
-    const result = response.filter(recipe => recipe.name.toLocaleLowerCase().includes(name.toLocaleLowerCase()));// Hago un filter para buscar dentro de response (que tiene tanto los valores de la Api como la base de datos), que el name que le pasé por parámetro esté adentro de title, sin importar mayúsculas y minúsculas. El resultado lo guardo en la variable result. 
-    if (result.length === 0) { // Si no encuentro recetas con ese nombre, el array estará vacío, en ese caso, lanzo un error para que lo maneje el Handler, informando que no hay recetas con ese nombre.
-        throw new Error(`No se encontraron recetas que coincidan con '${name}'.`);
-      }
+    const filterApi = cleanArray(recipesApi.data.results);
+    const response = [...recipesDb, ...filterApi];
+
+    const result = response.filter((recipes) => recipes.name && recipes.name.toLowerCase().includes(title.toLowerCase()));
+
+    if (result.length === 0) {
+      throw new Error(`No se encontraron recetas que coincidan con '${title}'.`);
+    }
+
     return result;
-  } else { //si el nombre que busco, no existe
-    const recipesApi = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);//hago la peticion a la API y guardo su respuesta en recipes
-    const recipesDb = await Recipes.findAll();//Ahora busco dentro de la base de datos Recipes todas las recetas.
-    const response = [...recipesApi.data.results, ...recipesDb]; //concateno ambas respuestas en la constante Response y la retorno.
-    return response;
+  } else {
+    const recipesApi = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    const recipesDb = await Recipes.findAll({
+      include: {
+        model: Diets,
+        attributes: ['name'],
+        through: {
+          attributes: [],
+        },
+      },
+    });
+    const filterApi = cleanArray(recipesApi.data.results);
+    return [...recipesDb, ...filterApi];
   }
 };
-
-
-
-
-

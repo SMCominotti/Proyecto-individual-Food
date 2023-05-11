@@ -1,7 +1,7 @@
 //AQUI IMPORTAMOS CONTROLADORES
 const getAllRecipes = require('../controllers/recipes/getAllRecipes.js');
 const getById = require('../controllers/recipes/getById.js')
-const postRecip = require('../controllers/recipes/postRecip.js')
+const postRecipes = require('../controllers/recipes/postRecip.js')
 
 const getRecipes = async (req, res) => {
     const { name } = req.query;
@@ -26,45 +26,48 @@ const getRecipes = async (req, res) => {
 }
 
 
-const postRecipes = async(req,res) => {
-    try {
-        const response = await postRecip(req.body)
-        res.status(200).json(response)
-    } catch (error) {
-        //aquí está el error
-        res.status(400).json({error: error.message, description:"error en postRecipes"})
-    }
+const postRecip = async (req, res) => {
+    
+  const {name, image, summary, healthScore, steps, diets} = req.body
+  try {        
+      const response = await postRecipes(name, image, summary, healthScore, steps)
+      await response.addDiets(diets)
+      res.status(200).json(response)
+  } catch (error) {
+      // aqui marca el error
+      res.status(400).json({error: error.message, descripcion: 'error en postRecipes'}) 
+  }
 }
 
 
 //______________________________________________________________
 
-const putRecipes = async(req,res) => {
-    try {
-        // aquí salió todo bien
-        const recipes = {};
-        res.status(200).json(recipes)
-    } catch (error) {
-        //aquí está el error
-        res.status(400).json({error: error.message, description:"error en putRecipes"})
-    }
-}
+// const putRecipes = async(req,res) => {
+//     try {
+//         // aquí salió todo bien
+//         const recipes = {};
+//         res.status(200).json(recipes)
+//     } catch (error) {
+//         //aquí está el error
+//         res.status(400).json({error: error.message, description:"error en putRecipes"})
+//     }
+// }
 
-const deleteRecipes = async(req,res) => {
-    try {
-        // aquí salió todo bien
-        const recipes = {};
-        res.status(200).json(recipes)
-    } catch (error) {
-        //aquí está el error
-        res.status(400).json({error: error.message, description:"error en deleteRecipes"})
-    }
-}
+// const deleteRecipes = async(req,res) => {
+//     try {
+//         // aquí salió todo bien
+//         const recipes = {};
+//         res.status(200).json(recipes)
+//     } catch (error) {
+//         //aquí está el error
+//         res.status(400).json({error: error.message, description:"error en deleteRecipes"})
+//     }
+// }
 
 module.exports = {
     getRecipe,
     getRecipes,
-    postRecipes,
-    putRecipes,
-    deleteRecipes,
+    postRecip,
+    //putRecipes,
+    //deleteRecipes,
 };

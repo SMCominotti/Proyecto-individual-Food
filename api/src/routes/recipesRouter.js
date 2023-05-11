@@ -1,5 +1,5 @@
-const {Router} = require ('express');
-const { getRecipes, getRecipe, postRecipes, putRecipes, deleteRecipes} = require ('../handler/recipesHandler.js')
+const { Router } = require('express');
+const { getRecipes, getRecipe, postRecip } = require('../handler/recipesHandler.js');
 
 //ROUTER
 const recipesRouter = Router();
@@ -8,8 +8,6 @@ const recipesRouter = Router();
 
 recipesRouter.get('/', getRecipes);
 recipesRouter.get('/:idRecipes', getRecipe);
-recipesRouter.post('/', postRecipes);
-recipesRouter.put('/', putRecipes);
-recipesRouter.delete('/', deleteRecipes);
+recipesRouter.post('/', postRecip); 
 
 module.exports = recipesRouter;

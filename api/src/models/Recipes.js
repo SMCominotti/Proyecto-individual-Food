@@ -16,19 +16,23 @@ module.exports = (sequelize) => {
       },
        image:{
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           isUrl:true,
         }
        },
        summary:{
         type: DataTypes.TEXT,
+        allowNull: false,
        },
-       healtScore:{
+       healthScore:{
         type: DataTypes.FLOAT,
+        allowNull: false,
        },
-       step: {
-        type: DataTypes.JSON,
-       },
+       steps: {
+        type: DataTypes.ARRAY(DataTypes.JSON),
+        
+      },
        created: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
