@@ -1,0 +1,8 @@
+.mainContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-radius: 15 px;
+    border: 1px solid black;
+    
+}
