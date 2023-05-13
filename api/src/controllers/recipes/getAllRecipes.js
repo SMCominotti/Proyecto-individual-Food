@@ -13,32 +13,39 @@ module.exports = async (title) => {
         image: elem.image,
         summary: elem.summary,
         healthScore: elem.healthScore,
+        diets:elem.diets,
         steps: elem.analyzedInstructions
           .flatMap((instruction) => instruction.steps)
           .filter((step) => step && step.number && step.step)
           .map(({ number, step }) => ({ number, step })),
+        created:'false'
       };
     });
   };
 
   if (title) {
-    const recipesApi = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    const recipesApi = await axios.get("https://run.mocky.io/v3/84b3f19c-7642-4552-b69c-c53742badee5")
+    //(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`);
     const recipesDb = await Recipes.findAll({
       where: {
         name: {
           [Op.iLike]: `%${title}%`,
         },
       },
-      include: {
-        model: Diets,
-        attributes: ['name'],
-        through: {
-          attributes: [],
-        },
-      },
-    });
+      include: [{
+               model: Diets,
+               }]
+      });
+
     const filterApi = cleanArray(recipesApi.data.results);
-    const response = [...recipesDb, ...filterApi];
+
+    const resultDb= recipesDb.map((recipes)=>{
+      const{id,name,image,diets}=recipes;
+      const nva=diets.map(diet=>diet.name)
+      return {id,name,image,diets: nva,created:'true'};
+    })
+
+    const response = [...resultDb, ...filterApi];
 
     const result = response.filter((recipes) => recipes.name && recipes.name.toLowerCase().includes(title.toLowerCase()));
 
@@ -48,17 +55,23 @@ module.exports = async (title) => {
 
     return result;
   } else {
-    const recipesApi = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    const recipesApi = await axios.get("https://run.mocky.io/v3/84b3f19c-7642-4552-b69c-c53742badee5")
+    //(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`);
     const recipesDb = await Recipes.findAll({
-      include: {
+      include: [{
         model: Diets,
-        attributes: ['name'],
-        through: {
-          attributes: [],
-        },
-      },
-    });
+        }]
+   });
+    
     const filterApi = cleanArray(recipesApi.data.results);
-    return [...recipesDb, ...filterApi];
+    
+    const resultDb= recipesDb.map((recipes)=>{
+      const{id,name,image,diets}=recipes;
+      const nva=diets.map(diet=>diet.name)
+      return {id,name,image,diets: nva,created:'true'};
+    })
+
+    return [...resultDb, ...filterApi];
+ 
   }
 };

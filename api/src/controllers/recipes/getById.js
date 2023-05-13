@@ -11,10 +11,12 @@ const cleanArray = (array) => {
       image: elem.image,
       summary: elem.summary,
       healthScore: elem.healthScore,
+      diets:elem.diets,
       steps: elem.analyzedInstructions
         .flatMap((instruction) => instruction.steps)
         .filter((step) => step && step.number && step.step)
         .map(({ number, step }) => ({ number, step })),
+        created:'false'
     };
   });
 };
@@ -28,18 +30,19 @@ module.exports = async (idRecipes) => {
     const filterApi = cleanArray([recipeApi.data]);
     return filterApi;
   } else {
-    const recipeDb = await Recipes.findByPk(idRecipes, {
-      include: {
+    const recipesDb = await Recipes.findByPk(idRecipes, {
+      include: [{
         model: Diets,
-        attributes: ['name'],
-        through: {
-          attributes: [],
-        },
-      },
+        }]
     });
-    return recipeDb;
-  }
-};
+    const resultDb= recipesDb.map((recipes)=>{
+      const{id,name,image,diets}=recipes;
+      const nva=diets.map(diet=>diet.name)
+      return {id,name,image,diets: nva,created:'true'};
+    })
+     return resultDb;
+   }
+ };
 
 
 
