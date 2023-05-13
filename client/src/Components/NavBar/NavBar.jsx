@@ -5,7 +5,7 @@ const NavBar = () => {
     return(
         <div className={style.mainContainer}>
             <NavLink to="/home">HOME</NavLink>
-            <NavLink to="/create">FORM</NavLink>
+            <NavLink to="/create">CREAR RECETAS</NavLink>
         </div>
     )
 }

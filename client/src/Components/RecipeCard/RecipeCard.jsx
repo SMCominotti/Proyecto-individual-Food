@@ -1,11 +1,23 @@
 import style from "./RecipeCard.module.css";
 
-const RecipeCard = (props) => {
+const RecipeCard = (allRecipes) => {
+  const card= allRecipes.allRecipes
+console.log(card)
+   const {name, image, diets}= card
+   console.log(name, image, diets)
     return(
      <div className={style.recipe}>
-         <p>Name: {props.name}</p>
-         <p>Image: {props.image}</p>
-         <p>Summary: {props.summary}</p>
+         <h3>{name}</h3>
+         <img src={image} alt={name} />      
+         <h5>{diets}</h5>  
+     </div>
+    )
+}
+
+
+export default RecipeCard
+
+ /* <p>Summary: {props.summary}</p>
          <p>HealthScore: {props.healthScore}</p>
          <p>Steps:</p>
            <ol>
@@ -15,10 +27,4 @@ const RecipeCard = (props) => {
                      <p>{step.step}</p>
                  </li>
                 ))}
-          </ol>
-     </div>
-    )
-}
-
-
-export default RecipeCard
+          </ol> */

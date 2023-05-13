@@ -1,0 +1,6 @@
+.landing{ 
+    background-image: url('../../asset/image/pizzafuego.jpg');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-attachment: fixed;
+  }

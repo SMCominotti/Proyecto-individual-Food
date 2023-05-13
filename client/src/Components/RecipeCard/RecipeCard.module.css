@@ -1,6 +1,25 @@
 .recipe{
-    border: 1px solid black;
-    width: fit-content;
-    height: fit-content;
-    border-radius:10px;
+    display:  flex;
+    flex-direction: column;
+    background-color: #f3f6f6;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 25px;
+    cursor: pointer;
+    -moz-osx-fond-smoothing: grayscale;
+
+    transform: translateZ(0);
+    transition: transform 0.25s ease-out;
 }
+
+.recipe:hover{
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
