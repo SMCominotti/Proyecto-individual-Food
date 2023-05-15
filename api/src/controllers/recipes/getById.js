@@ -11,39 +11,67 @@ const cleanArray = (array) => {
       image: elem.image,
       summary: elem.summary,
       healthScore: elem.healthScore,
-      diets:elem.diets,
+      diets: elem.diets,
       steps: elem.analyzedInstructions
         .flatMap((instruction) => instruction.steps)
         .filter((step) => step && step.number && step.step)
         .map(({ number, step }) => ({ number, step })),
-        created:'false'
+      createdInDataBase: false
     };
   });
 };
 
 module.exports = async (idRecipes) => {
-  if (!idRecipes) throw new Error(`No se encontraron recetas que coincidan con el id: '${idRecipes}'.`);
+  if (!idRecipes) {
+    throw new Error(`No se encontraron recetas que coincidan con el id: '${idRecipes}'.`);
+  }
 
-  const recipeApi = await axios.get(`https://api.spoonacular.com/recipes/${idRecipes}/information?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+  // Check if the id is a UUID or an integer
+  const idIsUUID = typeof idRecipes === 'string' && idRecipes.match(/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/gi);
+  let recipes;
 
-  if (recipeApi.data) {
-    const filterApi = cleanArray([recipeApi.data]);
-    return filterApi;
-  } else {
-    const recipesDb = await Recipes.findByPk(idRecipes, {
-      include: [{
+  if (idIsUUID) {
+    recipes = await Recipes.findOne({
+      where: { id: idRecipes },
+      include: {
         model: Diets,
-        }]
+        attributes: ['name'],
+        through: {
+          attributes: []
+        }
+      }
     });
-    const resultDb= recipesDb.map((recipes)=>{
-      const{id,name,image,diets}=recipes;
-      const nva=diets.map(diet=>diet.name)
-      return {id,name,image,diets: nva,created:'true'};
-    })
-     return resultDb;
-   }
- };
+  } else {
+    const recipeApi = await axios.get(`https://api.spoonacular.com/recipes/${idRecipes}/information?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    recipes = cleanArray([recipeApi.data])[0];
+  }
 
+  if (!recipes) {
+    throw new Error(`No se encontraron recetas que coincidan con el id: '${idRecipes}'.`);
+  }
 
+  // Format diets array
+  const diets = recipes.diets.map((diets) => {
+    return typeof diets === 'string' ? { name: diets } : { name: diets.name };
+  });
 
+  // Format steps array
+  const steps = recipes.steps.map((step) => {
+    return {
+      number: step.number,
+      step: step.step
+    };
+  });
+
+  return {
+    id: recipes.id,
+    name: recipes.name,
+    image: recipes.image,
+    summary: recipes.summary,
+    healthScore: recipes.healthScore,
+    diets: diets,
+    steps: steps,
+    createdInDataBase: recipes.created || 'false'
+  };
+};
 

@@ -18,31 +18,34 @@ module.exports = async (title) => {
           .flatMap((instruction) => instruction.steps)
           .filter((step) => step && step.number && step.step)
           .map(({ number, step }) => ({ number, step })),
-        created:'false'
-      };
+        };
     });
   };
 
   if (title) {
     const recipesApi = await axios.get("https://run.mocky.io/v3/84b3f19c-7642-4552-b69c-c53742badee5")
-    //(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`);
+    //(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
     const recipesDb = await Recipes.findAll({
       where: {
         name: {
           [Op.iLike]: `%${title}%`,
         },
       },
-      include: [{
+      include: {
                model: Diets,
-               }]
+               atributes:['name'],
+                 through:{
+                 atributes:[],
+                 }
+               }
       });
 
     const filterApi = cleanArray(recipesApi.data.results);
 
     const resultDb= recipesDb.map((recipes)=>{
-      const{id,name,image,diets}=recipes;
+      const{id,name,image,summary, healthScore, steps, diets}=recipes;
       const nva=diets.map(diet=>diet.name)
-      return {id,name,image,diets: nva,created:'true'};
+      return {id,name,image,summary, healthScore, steps, diets: nva,createdInDataBase:'true'};
     })
 
     const response = [...resultDb, ...filterApi];
@@ -56,7 +59,7 @@ module.exports = async (title) => {
     return result;
   } else {
     const recipesApi = await axios.get("https://run.mocky.io/v3/84b3f19c-7642-4552-b69c-c53742badee5")
-    //(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`);
+    //(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
     const recipesDb = await Recipes.findAll({
       include: [{
         model: Diets,
@@ -66,9 +69,9 @@ module.exports = async (title) => {
     const filterApi = cleanArray(recipesApi.data.results);
     
     const resultDb= recipesDb.map((recipes)=>{
-      const{id,name,image,diets}=recipes;
+      const{id,name,image,summary, healthScore, steps, diets}=recipes;
       const nva=diets.map(diet=>diet.name)
-      return {id,name,image,diets: nva,created:'true'};
+      return {id,name,image,summary, healthScore, steps, diets: nva,createdInDataBase:'true'};
     })
 
     return [...resultDb, ...filterApi];
