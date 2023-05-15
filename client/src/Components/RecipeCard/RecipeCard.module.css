@@ -1,25 +1,44 @@
-.recipe{
-    display:  flex;
-    flex-direction: column;
-    background-color: #f3f6f6;
-    border: 1px solid gray;
+.recipe {
+    display: grid;
+    grid-template-rows: auto 1fr; /* Dos filas, la primera se ajusta al contenido y la segunda se expande para ocupar el espacio restante */
+    border: 2px solid rgb(17, 15, 15);
     border-radius: 5px;
     padding: 25px;
     cursor: pointer;
     -moz-osx-fond-smoothing: grayscale;
-
     transform: translateZ(0);
     transition: transform 0.25s ease-out;
-}
-
-.recipe:hover{
+    background-color: rgba(15, 15, 15, 0.482); /* Fondo opaco transparente */
+  }
+  
+  .recipe:hover {
     transform: scale(1.05);
-}
-
-
-
-
-
-
-
-
+  }
+  
+  .heading {
+    color: black;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .diets {
+    margin-top: auto; /* Empuja el texto de las dietas hacia abajo */
+  }
+  
+  .imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .recipeImage {
+    max-width: 100%;
+    max-height: 100%;
+    border: 2px solid black;
+    border-radius: 5px;
+  }
+  

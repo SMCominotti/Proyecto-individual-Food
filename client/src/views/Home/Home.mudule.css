@@ -1,0 +1,43 @@
+
+.home {
+  background-image: url('../../asset/image/comida-saludable.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin-top: -40px; /* Aplica un margen negativo para subir el contenido */
+}
+
+ 
+  .heading {
+    color: black;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+  }
+
+
+  .title {
+    font-family: "Playfair Display";
+    font-size: 60px; 
+    margin-bottom: 1px; 
+    letter-spacing: 5px;
+  }
+  
+  .subTitle {
+    font-family: "Qwitcher Grypen";
+    font-size: 50px; 
+    margin-top: 2px; 
+    letter-spacing: 12px;
+  }
+  
+  .selectors-container {
+    margin-bottom: 20px; 
+  }
+
+  .custom-select {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 10px;
+    }
+  

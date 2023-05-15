@@ -1,7 +1,7 @@
-.container{
-    width: 85vw;
-    margin: 0 auto;
+/* RecipesContainer.module.css */
+.container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 20px
-}
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas con igual ancho */
+    grid-gap: 1rem; /* Espacio entre las recetas */
+  }
+  

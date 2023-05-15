@@ -13,15 +13,21 @@ const Landing = () => {
 
   return (
     <>
-      <h3> Bienvenidos a </h3>
-      <h1> SMAK </h1>
-      <h2> Sabores del alma</h2>
+      <h3 className={`${style.heading} ${style.bienvenidos}`}>Bienvenidos a</h3>
+      <h1 className={`${style.heading} ${style.title}`}>SMAK</h1>
+      <h2 className={`${style.heading} ${style.subTitle}`}>Sabores del alma</h2>
       <Link to="/home">
-        <button>Ingresar</button>
+        <button className={style.ctaButton}>Ingresar</button>
       </Link>
+
     </>
   );
 };
 
+
+
+
+
 export default Landing;
+
 

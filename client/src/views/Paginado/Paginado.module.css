@@ -1,0 +1,25 @@
+/* Paginado.module.css */
+.paginado {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0;
+  }
+  
+  .number {
+    background-color: #f1f1f1;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+  }
+  
+  .number a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .number a:hover {
+    background-color: #ddd;
+  }
+  

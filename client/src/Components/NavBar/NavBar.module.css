@@ -1,8 +1,15 @@
-.mainContainer{
+.mainContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    border-radius: 15 px;
-    border: 1px solid black;
-    
-}
+    border: 1px solid grey;
+    background-color: black;
+    color: white;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .mainContainer a {
+    text-decoration: none; /* Elimina el subrayado */
+    color: white; /* Cambia el color de los enlaces a blanco */
+  }
+  

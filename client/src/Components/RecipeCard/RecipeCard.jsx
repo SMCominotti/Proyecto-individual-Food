@@ -1,21 +1,35 @@
 import style from "./RecipeCard.module.css";
 
-const RecipeCard = (allRecipes) => {
-  const card= allRecipes.allRecipes
-console.log(card)
-   const {name, image, diets}= card
-   console.log(name, image, diets)
-    return(
-     <div className={style.recipe}>
-         <h3>{name}</h3>
-         <img src={image} alt={name} />      
-         <h5>{diets}</h5>  
-     </div>
-    )
-}
+const RecipeCard = ({ recipe }) => {
+  const { name, image, diets } = recipe;
+  const formattedName = name.toUpperCase();
+
+  const formattedDiets = diets.map((diet) => diet.toUpperCase());
+
+  return (
+    <div className={style.recipe}>
+      <div className={style.content}>
+        <h3 className="heading">{formattedName}</h3>
+    </div>
+      <div className={style.imageContainer}>
+        <img
+          id="recipeImage"
+          src={image}
+          alt={name}
+          className={style.recipeImage}
+        />
+      </div>
+      <h4 className={`heading ${style.diets}`} style={{ marginTop: "10px" }}>
+        {formattedDiets.join(", ")}</h4>
+    </div>
+  );
+};
+
+export default RecipeCard;
 
 
-export default RecipeCard
+
+
 
  /* <p>Summary: {props.summary}</p>
          <p>HealthScore: {props.healthScore}</p>

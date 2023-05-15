@@ -1,6 +1,53 @@
-.landing{ 
+.landing {
     background-image: url('../../asset/image/pizzafuego.jpg');
-     background-size: cover;
-     background-repeat: no-repeat;
-     background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
+  
+  .heading {
+    color: black;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+  }
+  
+ .title {
+  font-family: "Playfair Display";
+  font-size: 60px;
+  margin-bottom: 5px; /* Ajusta el valor para acercar el título */
+  letter-spacing: 10px;
+}
+
+.bienvenidos {
+  font-family: "Playfair Display";
+  font-size: 20px;
+  margin-top: 50px;
+  margin-bottom: -30px; /* Ajusta el valor para acercar "Bienvenidos" */
+}
+
+.subTitle {
+  font-family: "Qwitcher Grypen";
+  font-size: 50px;
+  margin-top: 2px;
+  letter-spacing: 20px;
+}
+
+    .ctaButton {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 12px;
+    letter-spacing: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ctaButton:hover {
+    background-color: #f40808;
+  }
+  
+  .ctaButton:active {
+    transform: scale(0.95);
+  }
+  
