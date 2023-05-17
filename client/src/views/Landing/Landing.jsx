@@ -5,11 +5,10 @@ import style from './Landing.module.css';
 const Landing = () => {
   useEffect(() => {
     document.body.classList.add(style.landing);
-
     return () => {
       document.body.classList.remove(style.landing);
     };
-  }, []);
+  }, []);//esto lo hago para que el fondo se monte cuando se cargue la pagina y se remueva luego (para que no pase a home)
 
   return (
     <>
@@ -23,10 +22,6 @@ const Landing = () => {
     </>
   );
 };
-
-
-
-
 
 export default Landing;
 

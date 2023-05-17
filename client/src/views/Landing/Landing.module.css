@@ -1,19 +1,19 @@
 .landing {
-    background-image: url('../../asset/image/pizzafuego.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-  
-  .heading {
-    color: black;
-    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
-  }
-  
- .title {
+  background-image: url('../../asset/image/pizzafuego.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.heading {
+  color: black;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
+
+.title {
   font-family: "Playfair Display";
   font-size: 60px;
-  margin-bottom: 5px; /* Ajusta el valor para acercar el título */
+  margin-bottom: 5px;
   letter-spacing: 10px;
 }
 
@@ -21,7 +21,7 @@
   font-family: "Playfair Display";
   font-size: 20px;
   margin-top: 50px;
-  margin-bottom: -30px; /* Ajusta el valor para acercar "Bienvenidos" */
+  margin-bottom: -30px;
 }
 
 .subTitle {
@@ -31,23 +31,26 @@
   letter-spacing: 20px;
 }
 
-    .ctaButton {
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 12px;
-    letter-spacing: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.ctaButton {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 12px;
+  letter-spacing: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+@keyframes pulse {
+  from {
+    box-shadow: 0 0 25px #f504d5, 0 0 50px #1a0011;
   }
-  
-  .ctaButton:hover {
-    background-color: #f40808;
-  }
-  
-  .ctaButton:active {
-    transform: scale(0.95);
-  }
-  
+}
+
+
+ .ctaButton:focus{
+  animation:
+  pulse 0.5s ease-in-out;
+ }

@@ -25,21 +25,21 @@ export const getRecipes = () =>{
 export function filterRecipesByDiets(payload){
     return{
         type: FILTER_BY_DIETS,
-        payload
+        payload //el "payload" puede ser cualquier valor que se pase como argumento al llamar a esta acción
     }
 }
 
 export function filterCreated(payload) {
     return {
       type: FILTER_CREATED,
-      payload
+      payload //el "payload" puede ser cualquier valor que se pase como argumento al llamar a esta acción
     };
   }
 
   export function orderByName(payload){
     return {
         type: 'ORDER_BY_NAME',
-        payload
+        payload //el "payload" puede ser cualquier valor que se pase como argumento al llamar a esta acción
     }
 }
 

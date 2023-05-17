@@ -3,11 +3,9 @@ import { GET_RECIPES, FILTER_BY_DIETS, FILTER_CREATED, ORDER_BY_NAME} from "./ac
 
 
 const initialState= {  //este es el estado global al ppio de la aplicación.
-    recipes:[],
-    allRecipes:[],
+    recipes:[], //recetas que se muestran en la aplicacion
+    allRecipes:[],//todas las del servidor
 };
-
-
    
 const rootReducer=(state=initialState, action) =>{
     switch(action.type){
@@ -31,7 +29,7 @@ const rootReducer=(state=initialState, action) =>{
             }
             case FILTER_CREATED:
                 const allRecipes2 = state.allRecipes;
-                const createdFilter = action.payload === 'created' ? allRecipes2.filter( e => e.createdInDataBase) : allRecipes2.filter( e => !e.createdInDataBase);
+                const createdFilter = action.payload === 'createdInDataBase' ? allRecipes2.filter( element => element.createdInDataBase) : allRecipes2.filter( element => !element.createdInDataBase);
                 return {
                     ...state,
                     recipes: action.payload === 'all' ? allRecipes2 : createdFilter
@@ -58,11 +56,7 @@ const rootReducer=(state=initialState, action) =>{
                     return {
                         ...state,
                         recipes: orderedArr
-                    }
-              
-             
-              
-         
+                    }    
     default:
         return state
     }

@@ -7,45 +7,42 @@ import style from './Home.mudule.css';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const allRecipes = useSelector((state) => state.recipes);
-  const [currentPage, setCurrentPage] = useState(1);
-  const recipesPerPage = 9;
+  const allRecipes = useSelector((state) => state.recipes); //accedo a la parte del estado global que tiene las recetas y se la asigno a la constante allRecipes
+  const [currentPage, setCurrentPage] = useState(1); //página actual
+  const recipesPerPage = 9; //cantidas de recetas por pagina
 
-  const indexOfLastRecipe = currentPage * recipesPerPage;
-  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = allRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);//esto se modifica dependiendo de la pagina en donde este.
+  const indexOfLastRecipe = currentPage * recipesPerPage; //multiplico el numero de pagina actual por la cantidad de rectas por pagina para saber cual es la ultima receta de esa pagina. Ej si estoy en la pag 2, 2x9=18, la receta 18 es la ultima de la pagina 2
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage; //y con esta obtengo el indice de la primer receta que se debe mostrar en la pagina. 
+  const currentRecipes = allRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);//esto se modifica dependiendo de la pagina en donde este. Con esto obtengo el fragmento que se muestra por pagina
 
   const [orden, setOrden] = useState("")
 
   const paginado = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
+  };//se actualiza currentpage cuando se hace click en la pagina
 
-  useEffect(() => {
+  useEffect(() => { //una vez que el componente se monto, se despacha el getRecipes para traer las recetas
     dispatch(getRecipes());
   }, [dispatch]);
 
-  // function handleClick(event) {
-  //   event.preventDefault();
-  //   dispatch(getRecipes());
-  // }
+
   function handleFilterDiets(event) {
-    dispatch(filterRecipesByDiets(event.target.value));
+    dispatch(filterRecipesByDiets(event.target.value)); //cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por dietas
   }
   
-  function handleFilterCreated(e){
-    e.preventDefault();
-    dispatch(filterCreated(e.target.value));
+  function handleFilterCreated(event){
+    event.preventDefault();
+    dispatch(filterCreated(event.target.value));
     setCurrentPage(1);
-    setOrden(`Ordenado ${e.target.value}`);
-}
+    setOrden(`Ordenado ${event.target.value}`);
+}//cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por creado.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
 
-function handleOrderByName(e){
-    e.preventDefault();
-    dispatch(orderByName(e.target.value));
+function handleOrderByName(event){
+    event.preventDefault();
+    dispatch(orderByName(event.target.value));
     setCurrentPage(1);
-    setOrden(`Ordenado ${e.target.value}`);
-}
+    setOrden(`Ordenado ${event.target.value}`);
+}//cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por orden alfabetico.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
 
   return (
     <div className="home">
