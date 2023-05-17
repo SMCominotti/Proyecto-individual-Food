@@ -5,10 +5,10 @@ const dietsRouter = Router();
 
 //ROUTES
 dietsRouter.get('/', getDiets);
-dietsRouter.get('/:id', getDiet);
-dietsRouter.post('/', postDiets);
-dietsRouter.put('/', putDiets);
-dietsRouter.delete('/', deleteDiets);
+// dietsRouter.get('/:id', getDiet);
+// dietsRouter.post('/', postDiets);
+// dietsRouter.put('/', putDiets);
+// dietsRouter.delete('/', deleteDiets);
 
 
 module.exports = dietsRouter;

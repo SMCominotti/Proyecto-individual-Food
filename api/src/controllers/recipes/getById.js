@@ -16,7 +16,7 @@ const cleanArray = (array) => {
         .flatMap((instruction) => instruction.steps)
         .filter((step) => step && step.number && step.step)
         .map(({ number, step }) => ({ number, step })),
-      createdInDataBase: false
+      createdInDataBase: 'false'
     };
   });
 };
@@ -26,7 +26,6 @@ module.exports = async (idRecipes) => {
     throw new Error(`No se encontraron recetas que coincidan con el id: '${idRecipes}'.`);
   }
 
-  // Check if the id is a UUID or an integer
   const idIsUUID = typeof idRecipes === 'string' && idRecipes.match(/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/gi);
   let recipes;
 
@@ -50,28 +49,14 @@ module.exports = async (idRecipes) => {
     throw new Error(`No se encontraron recetas que coincidan con el id: '${idRecipes}'.`);
   }
 
-  // Format diets array
-  const diets = recipes.diets.map((diets) => {
-    return typeof diets === 'string' ? { name: diets } : { name: diets.name };
-  });
-
-  // Format steps array
-  const steps = recipes.steps.map((step) => {
-    return {
-      number: step.number,
-      step: step.step
-    };
-  });
-
   return {
     id: recipes.id,
     name: recipes.name,
     image: recipes.image,
     summary: recipes.summary,
     healthScore: recipes.healthScore,
-    diets: diets,
-    steps: steps,
+    diets: recipes.diets,
+    steps: recipes.steps,
     createdInDataBase: recipes.created || 'false'
   };
 };
-
