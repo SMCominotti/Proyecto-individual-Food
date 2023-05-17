@@ -16,7 +16,7 @@ const cleanArray = (array) => {
         .flatMap((instruction) => instruction.steps)
         .filter((step) => step && step.number && step.step)
         .map(({ number, step }) => ({ number, step })),
-      createdInDataBase: 'false'
+      createdInDataBase: false
     };
   });
 };
@@ -57,6 +57,6 @@ module.exports = async (idRecipes) => {
     healthScore: recipes.healthScore,
     diets: recipes.diets,
     steps: recipes.steps,
-    createdInDataBase: recipes.created || 'false'
+    createdInDataBase: recipes.created || false
   };
 };

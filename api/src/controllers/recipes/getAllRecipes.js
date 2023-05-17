@@ -18,7 +18,7 @@ module.exports = async (name) => {
           .flatMap((instruction) => instruction.steps) //aplico FlatMap para combinar todos los arrays en uno solo (de la propiedad steps)
           .filter((step) => step && step.number && step.step) //mediante un filter elimino los que sean nulos, no tengan numer de pasos o texto dentro de step
           .map(({ number, step }) => ({ number, step })),//hago un map tomando solo las propiedades number y step  
-        createdInDataBase: 'false'
+        createdInDataBase: false
         };
     });
   };
@@ -46,7 +46,7 @@ module.exports = async (name) => {
     const resultDb= recipesDb.map((recipes)=>{
       const{id, name, image, summary, healthScore, steps, diets}=recipes;
       const nva=diets.map(diet=>diet.name)
-      return {id, name, image, summary, healthScore, steps, diets: nva,createdInDataBase:'true'};
+      return {id, name, image, summary, healthScore, steps, diets: nva,createdInDataBase:true};
     })
 
     const response = [...resultDb, ...filterApi];
@@ -76,7 +76,7 @@ module.exports = async (name) => {
     const resultDb= recipesDb.map((recipes)=>{
       const{id,name,image,summary, healthScore, steps, diets}=recipes;
       const nva=diets.map(diet=>diet.name)
-      return {id,name,image,summary, healthScore, steps, diets: nva,createdInDataBase:'true'};
+      return {id,name,image,summary, healthScore, steps, diets: nva,createdInDataBase:true};
     })
 
     return [...resultDb, ...filterApi];
