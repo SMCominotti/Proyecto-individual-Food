@@ -1,247 +1,321 @@
 import { useState } from "react";
 import axios from "axios";
 import style from "./Form.module.css";
+import { NavLink } from 'react-router-dom';
 
 const Form = () => {
   const [form, setForm] = useState({
     name: "",
     summary: "",
-    steps: "",
+    diets: [],
     healthScore: "",
     image: "",
-    diets: [] 
-  });
-  const [errors, setErrors] = useState({
-    name: "",
-    summary: "",
-    steps: "",
-    healthScore: "",
-    image: ""
+    instructions: "",
   });
 
-  const changeHandler = (event) => { //se ejecuta cada vez que se produce un cambio en el formulario
+  const [errors, setErrors] = useState({
+    name: null,
+    summary: null,
+    diets: null,
+    healthScore: null,
+    image: null,
+    instructions: null,
+  });
+
+  const changeHandler = (event) => {
     const property = event.target.name;
     const value = event.target.value;
-//guarda las propiedades name y value y actualiza el formulario. Siempre hago una copia del original y actualizo las propiedades que cambian, para no perder las que se mantienen
-    setForm({ ...form, [property]: value });
-    // Realizamos la validación en el momento del cambio
-    validate({ ...form, [property]: value });
-    //hago la validacion en el momento del cambio
+  
+    if (property === "diets") {
+      const isChecked = event.target.checked;
+      const dietId = event.target.dataset.id; // Obtener el ID de la dieta desde el atributo "data-id"
+  
+      if (isChecked) {
+        setForm((form) => ({
+          ...form,
+          diets: [...form.diets, dietId], // Agregar el ID de la dieta en lugar del nombre
+        }));
+      } else {
+        setForm((form) => ({
+          ...form,
+          diets: form.diets.filter((diet) => diet !== dietId), // Filtrar por el ID de la dieta
+        }));
+      }
+    } else {
+      setForm({
+        ...form,
+        [property]: value,
+      });
+    }
+    validate({
+      ...form,
+      [property]: value,
+    });
   };
+  
 
   const validate = (form) => {
-      const { name, summary, steps, healthScore, image } = form;
-      const newErrors = {};
-   if (!name) {
-        newErrors.name = "Por favor, complete el nombre de la receta";
-      } else {
-        newErrors.name = "";
-      }
-  if (!summary) {
-        newErrors.summary = "Por favor, complete el resumen del plato";
-      } else {
-        newErrors.summary = "";
-      }
-  if (!steps) {
-        newErrors.steps = "Por favor, complete los pasos de la receta";
-      } else {
-        newErrors.steps = "";
-      }
-  if (!healthScore) {
-        newErrors.healthScore = "Por favor, complete el nivel de comida saludable";
-      } else if (isNaN(healthScore) || Number(healthScore) < 0 || Number(healthScore) > 100) {
-        newErrors.healthScore = "El nivel de comida saludable debe ser un número entre 0 y 100";
-      } else {
-        newErrors.healthScore = "";
-      }
-   if (!image) {
-        newErrors.image = "Por favor, complete la URL de la imagen";
-      } else {
-        newErrors.image = "";
-      }
-  setErrors(newErrors); //una vez que hago todas las validaciones, actualizo el estado de error con el o los correspondientes.
-  };
-
-  const submitHandler = (event) => { //cuando se envía el formulario
-    event.preventDefault(); //previene el comportamiento predeterminado (se evita que el formulario se envíe y se recargue la página, permitiendo un control más preciso como validaciones o mensajes de error)
-    axios
-      .post("http://localhost:3001/recipes", form) //aca es donde se hace la solicitud post
-      .then((res) => alert(res)) // Mediante un alert (se muestra si salió todo bien o hay un error)
-      .catch((err) => alert(err));
-  };
-
-
-  const toggleDiet = (diet) => {
-    //esta constante la creo para que funcionen bien los checklist y permitir al usuario que pueda seleccionar mas de 1 
-    const selectedDiets = [...form.diets];
-    //primero creo una copia de las dietas 
-    if (selectedDiets.includes(diet)) {
-      // Verificar si la dieta seleccionada 
-      const index = selectedDiets.indexOf(diet);
-      selectedDiets.splice(index, 1);
-      // Si está, la removemos
+    
+    if (!form.name) {
+      setErrors((errors) => ({
+        ...errors,
+        name: "Por favor, ingrese el nombre de la receta",
+      }));
+    } else if (form.name.length <= 60) {
+      setErrors((errors) => ({
+        ...errors,
+        name: null,
+      }));
     } else {
-            selectedDiets.push(diet);
-    }// Si no está, la agregamos
-    setForm({ ...form, diets: selectedDiets });
-    //actualizo el estado con las dietas seleccionadas.
-  };
-  //esto es porque cuando hago el include, como todas estan, es como si todas estuviesen marcadas (aunque el cuadradito este sin tilde), si la marco (es como si la desmarcara en verdad), por eso dice, si esta seleccionada (por default, no por el cliente (y el cuadradito en blanco), la saco, si no esta seleccionada (osea si por el cliente, la agrego)Es alrevez de lo que parece. En ese caso, las marcadas por el cliente seran las agregadas en el array
+      setErrors((errors) => ({
+        ...errors,
+        name: "Por favor, ingrese un nombre con menos de 60 caracteres",
+      }));
+    }
 
-   return (
-          <form className={style.form} onSubmit={submitHandler}>
-            <div>
-                <label className={style.label} htmlFor="name">Nombre: </label>
-                <input type="text" value={form.name} onChange={changeHandler} name="name" placeholder="Ingrese el nombre de la receta" />
-                {errors.name && <span>{errors.name}</span>}
-            </div>
-            <div>
-                <label className={style.label} htmlFor="summary">Resumen del plato: </label>
-                <input type="text" value={form.summary} onChange={changeHandler} name="summary" placeholder="Ingrese el resumen del plato" />
-                {errors.summary && <span>{errors.summary}</span>}
-            </div>
-            <div>
-                <label className={style.label} htmlFor="healthScore">Nivel de comida saludable: </label>
-                <input type="text" value={form.healthScore} onChange={changeHandler} name="healthScore" placeholder="Ingrese el nivel de comida saludable" />
-                {errors.healthScore && <span>{errors.healthScore}</span>}
-            </div>
-            <div>
-                <label className={style.label} htmlFor="steps">Paso a paso: </label>
-                <input type="text" value={form.steps} onChange={changeHandler} name="steps" placeholder="Ingrese los pasos de la receta" />
-                {errors.steps && <span>{errors.steps}</span>}
-            </div>
-            <div>
-                <label className={style.label} htmlFor="image">Imagen: </label>
-                <input type="text" value={form.image} onChange={changeHandler} name="image" placeholder="Ingrese la URL de la imagen" />
-                {errors.image && <span>{errors.image}</span>}
-            </div>
-            <div>
-                <label className={style.label} htmlFor="diets">Tipos de dieta:</label>
-                <div>
-                  <label>
-                      <input
-                        type="checkbox"
-                        value="vegetarian"
-                        checked={form.diets.includes("vegetarian")}
-                        onChange={() => toggleDiet("vegetarian")}
-                      />
-                     Vegetariana
-                  </label>
-               </div>
-               <div>
-                  <label>
-                      <input
-                        type="checkbox"
-                        value="vegan"
-                        checked={form.diets.includes("vegan")}
-                        onChange={() => toggleDiet("vegan")}
-                      />
-                      Vegana
-                   </label>
-               </div>
-               <div>
-                  <label>
-                      <input
-                        type="checkbox"
-                        value="gluten free"
-                        checked={form.diets.includes("gluten free")}
-                        onChange={() => toggleDiet("gluten free")}
-                  />
-                     Sin gluten
-                  </label>
-                </div>
-                <div>
-                  <label>
-                      <input
-                        type="checkbox"
-                        value="dairy free"
-                        checked={form.diets.includes("dairy free")}
-                        onChange={() => toggleDiet("dairy free")}
-                  />
-                    Sin lácteos
-                  </label>
-                </div>
-                <div>
-                  <label>
-                     <input
-                        type="checkbox"
-                        value="lacto ovo vegetarian"
-                        checked={form.diets.includes("lacto ovo vegetarian")}
-                        onChange={() => toggleDiet("lacto ovo vegetarian")}
-                      />
-                    Lacto-Ovo-Vegetariana
-                  </label>
-                </div>
-                <div>
-                  <label>
-                      <input
-                        type="checkbox"
-                        value="paleolithic"
-                        checked={form.diets.includes("paleolithic")}
-                        onChange={() => toggleDiet("paleolithic")}
-                      />
-                    Paleo
-                  </label>
-                </div>
-                <div>
-                  <label>
-                     <input
-                        type="checkbox"
-                        value="primal"
-                        checked={form.diets.includes("primal")}
-                        onChange={() => toggleDiet("primal")}
-                      />
-                    Primal
-                  </label>
-                </div>
-                <div>
-                <label>
-                   <input
-                        type="checkbox"
-                        value="whole 30"
-                        checked={form.diets.includes("whole 30")}
-                        onChange={() => toggleDiet("whole 30")}
-                      />
-                    Whole 30
-                </label>
-                  </div>
-                  <div>
-                  <label>
-                      <input
-                        type="checkbox"
-                        value="pescatarian"
-                        checked={form.diets.includes("pescatarian")}
-                        onChange={() => toggleDiet("pescatarian")}
-                      />
-                   Pesca-Vegetariana
-               </label>
-                  </div>
-                  <div>
-              <label>
-                <input
-                    type="checkbox"
-                    value="ketogenic"
-                    checked={form.diets.includes("ketogenic")}
-                    onChange={() => toggleDiet("ketogenic")}
-                />
-                Keto
-              </label>
-             </div>
-             <div>
-             <label>
-                  <input
-                    type="checkbox"
-                    value="fodmap friendly"
-                    checked={form.diets.includes("fodmap friendly")}
-                    onChange={() => toggleDiet("fodmap friendly")}
-                  />
-                 Fodmap
-              </label>
-               </div>
-              </div>
-             <button type="submit">Crear Receta</button>
-         </form>
-   );
-}
+    
+    if (!form.summary) {
+      setErrors((errors) => ({
+        ...errors,
+        summary: "Por favor, ingrese la descripción de la receta",
+      }));
+    } else if (form.summary.length <= 100) {
+      setErrors((errors) => ({ ...errors, summary: null }));
+    } else {
+      setErrors((errors) => ({
+        ...errors,
+        summary: "La descripción debe tener menos de 60 caracteres",
+      }));
+    }
+
+    
+    if (form.diets.length === 0) {
+      setErrors((errors) => ({
+        ...errors,
+        diets: "Por favor, seleccione la o las dietas.",
+      }));
+    } else {
+      setErrors((errors) => ({
+        ...errors,
+        diets: null,
+      }));
+    }
+
+    
+    if (!form.healthScore) {
+      setErrors((errors) => ({
+        ...errors,
+        healthScore: "Por favor, ingrese el nivel de comida saludable",
+      }));
+    } else if (/^([1-9][0-9]?|100)$|^0$/.test(form.healthScore)) {
+      setErrors((errors) => ({ ...errors, healthScore: null }));
+    } else {
+      setErrors((errors) => ({
+        ...errors,
+        healthScore: "Debe ser un número de 0 a 100",
+      }));
+    }
+
+    
+    if (!form.image) {
+      setErrors((errors) => ({
+        ...errors,
+        image: "Por favor, ingrese la URL de la imágen.",
+      }));
+    } else if (/^(ftp|http|https):\/\/[^ "]+\.(jpg|png)$/.test(form.image)) {
+      setErrors((errors) => ({ ...errors, image: null }));
+    } else {
+      setErrors((errors) => ({
+        ...errors,
+        image: "Ingrese una URL válida",
+      }));
+    }
+
   
+    if (!form.instructions) {
+      setErrors((errors) => ({
+        ...errors,
+        instructions: "Por favor, describa el paso a paso de la receta",
+      }));
+    } else if (form.instructions.length <= 500) {
+      setErrors((errors) => ({
+        ...errors,
+        instructions: null,
+      }));
+    } else {
+      setErrors((errors) => ({
+        ...errors,
+        instructions: "El máximo son 500 caracteres",
+      }));
+    }
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    axios
+      .post("http://localhost:3001/recipes/", form)
+      .then((res) => alert("Receta creada Correctamente"))
+      .catch((err) => alert(err.response.data.error));
+  };
+
+  return (
+    <>
+     <NavLink to="/home" className="button-style">Volver</NavLink>
+           <h1>Anímate a compartir tu receta con nosotros</h1>
+          <h3>Créala aquí</h3>
+   
+    <form className={style.form} onSubmit={submitHandler}>
+   
+      <div>
+        <label className={style.label} >Nombre: </label>
+        <input
+          type="text"
+          name="name"
+          value={form.name}
+          onChange={changeHandler}
+        />
+        {errors.name !== null && <span>{errors.name}</span>}
+      </div>
+      <div>
+        <label className={style.label} >Descripción: </label>
+        <input
+          type="text"
+          name="summary"
+          value={form.summary}
+          onChange={changeHandler}
+        />
+        {errors.summary !== null && <span>{errors.summary}</span>}
+      </div>
+     
+      <div>
+        <label className={style.label} >Nivel de comida saludable: </label>
+        <input
+          type="text"
+          name="healthScore"
+          value={form.healthScore}
+          onChange={changeHandler}
+        />
+        {errors.healthScore !== null && <span>{errors.healthScore}</span>}
+      </div>
+      <div>
+        <label className={style.label} >Imágen: </label>
+        <input
+          type="text"
+          name="image"
+          value={form.image}
+          onChange={changeHandler}
+        />
+        {errors.image !== null && <span>{errors.image}</span>}
+      </div>
+      <div>
+        <label className={style.label}  >Paso a paso: </label>
+        <input
+          type="text"
+          name="instructions"
+          value={form.instructions}
+          onChange={changeHandler}
+        />
+        {errors.instructions !== null && <span>{errors.instructions}</span>}
+      </div>
+      <div>
+        <label className={style.label} >Seleccioná el o los tipos de dietas: </label>
+        <br />
+        <input
+          type="checkbox"
+          name="diets"
+          value="gluten free"
+          data-id="81553869-8198-462a-b401-70ec2a8cb3cf" 
+          checked={form.diets.includes("81553869-8198-462a-b401-70ec2a8cb3cf")} 
+          onChange={changeHandler}
+        />
+        Sin Gluten
+        <input
+          type="checkbox"
+          name="diets"
+          value="diary free"
+          data-id="4cedf10f-ecb3-4c3b-857c-ad635758a2bf" 
+          checked={form.diets.includes("4cedf10f-ecb3-4c3b-857c-ad635758a2bf")}
+          onChange={changeHandler}
+        />
+        Sin Lacteos
+        <input
+          type="checkbox"
+          name="diets"
+          value="lacto ovo vegetarian"
+          data-id="996e3f03-098d-40bb-9cfb-b3a5e0f2125d"
+          checked={form.diets.includes("996e3f03-098d-40bb-9cfb-b3a5e0f2125d")}
+          onChange={changeHandler}
+        />
+        Lacto Ovo Vegetariana
+        <input
+          type="checkbox"
+          name="diets"
+          value="vegan"
+          data-id="fe979227-3638-4a03-80ca-59c63f55af93"
+          checked={form.diets.includes("fe979227-3638-4a03-80ca-59c63f55af93")}
+          onChange={changeHandler}
+        />
+        Vegana
+        <input
+          type="checkbox"
+          name="diets"
+          value="paleolithic"
+          data-id="79bdb2ac-0ac9-459c-a916-73ebadda5688"
+          checked={form.diets.includes("79bdb2ac-0ac9-459c-a916-73ebadda5688")}
+          onChange={changeHandler}
+        />
+        Paleo
+        <input
+          type="checkbox"
+          name="diets"
+          value="primal"
+          data-id="b3d0efda-c4b4-46c4-ac5b-d4acb0838eab"
+          checked={form.diets.includes("b3d0efda-c4b4-46c4-ac5b-d4acb0838eab")}
+          onChange={changeHandler}
+        />
+        Primal
+        <input
+          type="checkbox"
+          name="diets"
+          value="whole 30"
+          data-id="c51dd8c2-7323-4d45-a43e-1ab1052ecb20"
+          checked={form.diets.includes("c51dd8c2-7323-4d45-a43e-1ab1052ecb20")}
+          onChange={changeHandler}
+        />
+        Whole 30
+        <input
+          type="checkbox"
+          name="diets"
+          value="pescatarian"
+          data-id="eab33792-1e40-4b6c-a58e-ebd41e946ced"
+          checked={form.diets.includes("eab33792-1e40-4b6c-a58e-ebd41e946ced")}
+          onChange={changeHandler}
+        />
+        Pesca-Vegetariana
+        <input
+          type="checkbox"
+          name="diets"
+          value="ketogenic"
+          data-id="6fd5d7b3-b530-4beb-8f9d-1efa6b108f84"
+          checked={form.diets.includes("6fd5d7b3-b530-4beb-8f9d-1efa6b108f84")}
+          onChange={changeHandler}
+        />
+        Keto
+        <input
+          type="checkbox"
+          name="diets"
+          value="fodmap friendly"
+          data-id="8bd92500-f4f4-4795-bf31-8c3a2fa1171e"
+          checked={form.diets.includes("8bd92500-f4f4-4795-bf31-8c3a2fa1171e")}
+          onChange={changeHandler}
+        />
+        Fodmap 
+        {errors.diets !== null && <span>{errors.diets}</span>}
+      </div>
+      <button type="submit" disabled={!form.name || !form.summary || !form.instructions || !form.healthScore || !form.image || !form.diets}>Crear Receta</button>
+    </form>
+    </>
+  );
+};
+
 export default Form;

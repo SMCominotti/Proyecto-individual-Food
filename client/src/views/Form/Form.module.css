@@ -61,3 +61,20 @@ button[type="submit"]:hover {
   color: black;
   font-weight: bold;
 }
+
+.custom-button {
+  margin-top: 20px;
+  background-color: black;
+  color: white;
+  border: solid rgb(245, 23, 200) 1px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 1s ease;
+  text-decoration: none; 
+}
+
+.custom-button:hover {
+  background-color: rgb(247, 177, 232);
+  color: black;
+  font-weight: bold;
+}

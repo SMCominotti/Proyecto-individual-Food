@@ -14,7 +14,7 @@
 .title {
   font-family: "Playfair Display";
   font-size: 60px;
-  margin-bottom: 1px;
+  margin-bottom: 20px;
   letter-spacing: 5px;
 }
 
@@ -22,11 +22,12 @@
   font-family: "Qwitcher Grypen";
   font-size: 50px;
   margin-top: 2px;
+  margin-bottom: 20px;
   letter-spacing: 12px;
 }
 
 .selectors-container {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .custom-select {
@@ -36,4 +37,5 @@
   border-radius: 5px;
   padding: 5px;
   margin-right: 10px;
+  margin-top: 10px;
 }

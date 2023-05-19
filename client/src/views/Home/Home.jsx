@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes, filterRecipesByDiets, filterCreated, orderByName } from "../../redux/actions";
 import Paginado from '../Paginado/Paginado';
+import SearchBar from "../SearchBar/SearchBar";
 import style from './Home.mudule.css';
 
 const Home = () => {
@@ -48,10 +49,9 @@ function handleOrderByName(event){
     <div className="home">
       <h1 className="heading title">Smak</h1>
       <h2 className="heading subTitle">Sabores del alma</h2>
-      {/* <button onClick={handleClick}>Volver a cargar todas las Recetas</button> */}
       <div className="selectors-container">
+      <SearchBar/>
       <select onChange={e=>handleOrderByName(e)} className="custom-select">
-     
           <option value="asc">Ascendente</option>
           <option value="desc">Descendente</option>
         </select>
