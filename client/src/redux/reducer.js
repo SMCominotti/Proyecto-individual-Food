@@ -5,7 +5,7 @@ const initialState = {
   allRecipes: [],//se utiliza para almacenar todas las recetas obtenidas del servidor.
   error: null, // Valor inicial para representar la ausencia de error
   allDiets:[],
-  recipeDetail:[],
+  recipeDetail:{},
 };
 
 

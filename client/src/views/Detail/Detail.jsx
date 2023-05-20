@@ -29,6 +29,20 @@ const Detail = () => {
     return null;
   };
 
+  const renderDiets = () => {
+    if (Array.isArray(recipeDetail.diets)) {
+      if (typeof recipeDetail.diets[0] === "string") {
+        // Si los tipos de dietas son un array de strings (API)
+        return recipeDetail.diets.join(", ");
+      } else if (typeof recipeDetail.diets[0] === "object") {
+        // Si los tipos de dietas son un array de objetos (base de datos)
+        return recipeDetail.diets.map((diet) => diet.name).join(", ");
+      }
+    }
+    return null;
+  };
+  
+
   const createMarkup = (html) => {
     return { __html: html };
   };
@@ -41,14 +55,14 @@ const Detail = () => {
 
           <h2>Nombre: {recipeDetail.name}</h2>
           <p>Nivel de comida saludable: {recipeDetail.healthScore}</p>
-
-          {recipeDetail.diets && recipeDetail.diets.length > 0 ? (
+          <div>Tipos de dietas: {renderDiets()}</div>
+          {/* {recipeDetail.diets && recipeDetail.diets.length > 0 ? (
             <div>
               Tipos de dieta: {recipeDetail.diets.map((diet) => diet.name).join(", ")}
             </div>
           ) : (
             <p>No hay dietas disponibles</p>
-          )}
+          )} */}
 
           <div>
             <p>
