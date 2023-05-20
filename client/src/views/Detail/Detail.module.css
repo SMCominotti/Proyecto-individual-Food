@@ -1,0 +1,6 @@
+.detail {
+    background-image: url('../../asset/image/recetas.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }

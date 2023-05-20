@@ -3,11 +3,11 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   
   sequelize.define('diets', {
-      name: {
+    name: {
           type: DataTypes.STRING,
           allowNull: false,
-      },
-      id: {
+    },
+    id: {
         type: DataTypes.UUID,  //de esta forma no se va a pisar con los ID de la API
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,//se van a crear automaticamente cuando creo una dieta

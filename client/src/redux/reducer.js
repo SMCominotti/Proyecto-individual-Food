@@ -1,10 +1,11 @@
-import { GET_RECIPES, FILTER_BY_DIETS, FILTER_CREATED, ORDER_BY_NAME, ERROR_GET_RECIPES, ERROR_GET_NAME_RECIPES, GET_NAME_RECIPES, ERROR_GET_DIETS ,GET_DIETS } from "./actions";
+import { GET_RECIPES, FILTER_BY_DIETS, FILTER_CREATED, ORDER_BY_NAME, ERROR_GET_RECIPES, ERROR_GET_NAME_RECIPES, GET_NAME_RECIPES, ERROR_GET_DIETS ,GET_DIETS, CLEAN_DATA, GET_DETAILS } from "./actions";
 
 const initialState = {
   recipes: [],//se utiliza para almacenar las recetas que se muestran en la aplicación después de aplicar algún filtro o ordenamiento.
   allRecipes: [],//se utiliza para almacenar todas las recetas obtenidas del servidor.
   error: null, // Valor inicial para representar la ausencia de error
-  allDiets:[]
+  allDiets:[],
+  recipeDetail:[],
 };
 
 
@@ -31,12 +32,11 @@ const rootReducer = (state = initialState, action) => {
             error: null, // Reinicia el estado de error a null en caso de éxito
         }
 
-        // case POST_RECIPES:
-        //   return {
-        //       ...state,
-        //   }
+  // case POST_RECIPES:
+ //   return {
+//       ...state,
+//   }
         
-
     case FILTER_BY_DIETS:
       const allRecipes = state.allRecipes;
       const dietsFiltered =
@@ -45,22 +45,22 @@ const rootReducer = (state = initialState, action) => {
           : allRecipes.filter((recipe) =>
               recipe.diets.includes(action.payload)
             );
-      return {
-        ...state,
-        recipes: dietsFiltered,
-        error: null, // Reinicia el estado de error a null
-      };
+        return {
+          ...state,
+          recipes: dietsFiltered,
+          error: null, // Reinicia el estado de error a null
+        };
     case FILTER_CREATED:
       const allRecipes2 = state.allRecipes;
       const createdFilter =
         action.payload === "createdInDataBase"
           ? allRecipes2.filter((element) => element.createdInDataBase)
           : allRecipes2.filter((element) => !element.createdInDataBase);
-      return {
-        ...state,
-        recipes: action.payload === "all" ? allRecipes2 : createdFilter,
-        error: null, // Reinicia el estado de error a null
-      };
+        return {
+          ...state,
+          recipes: action.payload === "all" ? allRecipes2 : createdFilter,
+          error: null, // Reinicia el estado de error a null
+        };
     case ORDER_BY_NAME:
       let orderedArr =
         action.payload === "asc"
@@ -87,13 +87,24 @@ const rootReducer = (state = initialState, action) => {
         recipes: orderedArr,
         error: null, // Reinicia el estado de error a null
       };
+    case GET_DETAILS:
+      return{
+        ...state,
+        recipeDetail: action.payload
+      } 
+     
+    case CLEAN_DATA:
+      return {
+        ...state,
+        recipeDetail: {},
+      }
     case ERROR_GET_RECIPES:
     case ERROR_GET_NAME_RECIPES:
     case ERROR_GET_DIETS:
     return {
         ...state,
         error: action.payload, // Actualiza el estado de error con el mensaje de error recibido
-      };
+    };
     default:
       return state;
   }

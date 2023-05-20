@@ -42,3 +42,9 @@
     border-radius: 5px;
   }
   
+.button {
+  background-color: black;
+  color:blueviolet;
+  border-radius: 5px;
+  border: solid white 1px;
+}

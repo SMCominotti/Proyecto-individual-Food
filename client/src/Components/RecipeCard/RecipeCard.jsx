@@ -1,7 +1,8 @@
 import style from "./RecipeCard.module.css";
+import {Link} from 'react-router-dom';
 
 const RecipeCard = ({ recipe }) => {
-  const { name, image, diets } = recipe;
+  const { name, image, diets, id } = recipe;
   const formattedName = name.toUpperCase();
 
   const formattedDiets = diets.map((diet) => diet.toUpperCase());
@@ -10,7 +11,7 @@ const RecipeCard = ({ recipe }) => {
     <div className={style.recipe}>
       <div className={style.content}>
         <h3 className="heading">{formattedName}</h3>
-    </div>
+      </div>
       <div className={style.imageContainer}>
         <img
           id="recipeImage"
@@ -19,9 +20,14 @@ const RecipeCard = ({ recipe }) => {
           className={style.recipeImage}
         />
       </div>
-      <h4 className={`heading ${style.diets}`} style={{ marginTop: "10px" }}>
+       <h4 className={`heading ${style.diets}`} style={{ marginTop: "10px" }}>
         {formattedDiets.join(", ")}</h4>
-    </div>
+        <div>
+          <Link to={`/detail/${id}`}>
+            <button className={style.button}>Leer más</button>
+          </Link>
+        </div>
+      </div>
   );
 };
 

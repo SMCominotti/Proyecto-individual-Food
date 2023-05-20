@@ -28,28 +28,31 @@ const Home = () => {
 
 
   function handleFilterDiets(event) {
-    dispatch(filterRecipesByDiets(event.target.value)); //cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por dietas
-  }
+    dispatch(filterRecipesByDiets(event.target.value)); 
+  }  
+  //cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por dietas
+  
   
   function handleFilterCreated(event){
     event.preventDefault();
     dispatch(filterCreated(event.target.value));
     setCurrentPage(1);
     setOrden(`Ordenado ${event.target.value}`);
-}//cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por creado.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
+  }
+  //cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por creado.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
 
-function handleOrderByName(event){
+  function handleOrderByName(event){
     event.preventDefault();
     dispatch(orderByName(event.target.value));
     setCurrentPage(1);
     setOrden(`Ordenado ${event.target.value}`);
-}//cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por orden alfabetico.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
+  }//cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por orden alfabetico.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
 
   return (
     <div className="home">
       <h1 className="heading title">Smak</h1>
-      <h2 className="heading subTitle">Sabores del alma</h2>
-      <div className="selectors-container">
+      <h2 className= "heading subTitle">Sabores del alma</h2>
+      <div className="selectorsContainer">
       <SearchBar/>
       <select onChange={e=>handleOrderByName(e)} className="custom-select">
           <option value="asc">Ascendente</option>

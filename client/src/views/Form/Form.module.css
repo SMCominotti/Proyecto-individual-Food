@@ -78,3 +78,11 @@ button[type="submit"]:hover {
   color: black;
   font-weight: bold;
 }
+.error {
+  display: block;
+  background-color: rgba(251, 12, 12, 0.781);
+  color: white;
+  padding: 4px;
+  border-radius: 4px;
+  margin-top: 4px;
+}

@@ -30,23 +30,23 @@ module.exports = async (idRecipes) => {
   let recipes;
 
   if (idIsUUID) {
-    recipes = await Recipes.findOne({
-      where: { id: idRecipes },
-      include: {
-        model: Diets,
-        attributes: ['name'],
-        through: {
-          attributes: []
+      recipes = await Recipes.findOne({
+        where: { id: idRecipes },
+        include: {
+          model: Diets,
+          attributes: ['name'],
+          through: {
+            attributes: []
+          }
         }
-      }
-    });
+      });
   } else {
-    const recipeApi = await axios.get(`https://api.spoonacular.com/recipes/${idRecipes}/information?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
-    recipes = cleanArray([recipeApi.data])[0];
-  }
+      const recipeApi = await axios.get(`https://api.spoonacular.com/recipes/${idRecipes}/information?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+      recipes = cleanArray([recipeApi.data])[0];
+    }
 
   if (!recipes) {
-    throw new Error(`No se encontraron recetas que coincidan con el id: '${idRecipes}'.`);
+       throw new Error(`No se encontraron recetas que coincidan con el id: '${idRecipes}'.`);
   }
 
   return {
