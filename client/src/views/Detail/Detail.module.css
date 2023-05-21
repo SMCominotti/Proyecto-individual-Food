@@ -1,6 +1,83 @@
-.detail {
-    background-image: url('../../asset/image/recetas.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background-image: url('../../asset/image/detail10.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.name {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-family: "Playfair Display";
+  color: black;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
+
+.imageContainer {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  justify-content: center;
+
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  justify-content: center;
+  border: solid 1px gray;
+  
+}
+
+.details {
+  width: 100%;
+  max-width: 800px;
+  background-image: linear-gradient(to top, #a8ede9ab 0%, #fed6e389 100%);
+  padding: 20px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.diets {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+}
+.title{
+  font-family: "Playfair Display";
+}
+
+
+.steps {
+  margin-top: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: black;
+  font-size: 14px;
+  text-align: justify;
+}
+
+.backButton {
+  text-decoration: none;
+  color: #d47ec9;
+  background-color: #0d0101;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-family: "Playfair Display";
+  border: solid 1px rgb(247, 8, 116);
+}
+
+.backButton:hover {
+  background-color: #3d022c;
+}
