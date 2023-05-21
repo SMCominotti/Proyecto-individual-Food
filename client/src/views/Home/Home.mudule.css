@@ -28,6 +28,7 @@
 
 .selectorsContainer {
   margin-bottom: 30px;
+  margin-top: -30px;
 }
 
 .custom-select {
@@ -36,8 +37,9 @@
   border: 1px solid white;
   border-radius: 5px;
   padding: 5px;
-  margin-right: 10px;
-  margin-top: 10px;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .loader-wrapper {
   display: flex;

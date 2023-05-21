@@ -49,6 +49,7 @@ export const getNameRecipes = (name) => {
           payload: json.data,
         });
       } catch (error) {
+        alert(`No recipes found to match ${name}`)
         return dispatch({
           type: ERROR_GET_NAME_RECIPES,
           payload: error.message, 

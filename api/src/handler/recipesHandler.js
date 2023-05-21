@@ -8,9 +8,11 @@ const getRecipes = async (req, res) => {
   const { name } = req.query;
   try {
       const response = await getAllRecipes(name);
+      if(!response.length) return res.status(400).json({ error: error.message, descripcion: 'No se encontraron recetas.' });
+    
       res.status(200).json(response); //si todo sale bien se envía el contenido de la receta.
   } catch (error) {
-      res.status(400).json({ error: error.message, descripcion: 'No se encontraron recetas.' });
+      res.status(400).json({ error: error.message });
   }
 };
 
