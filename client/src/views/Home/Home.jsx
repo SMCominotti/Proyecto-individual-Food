@@ -1,13 +1,14 @@
 import RecipesContainer from "../../Components/RecipesContainer/RecipesContainer";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecipes, filterRecipesByDiets, filterCreated, orderByName } from "../../redux/actions";
+import { getRecipes, filterRecipesByDiets, filterCreated, orderByName , setLoading, } from "../../redux/actions";
 import Paginado from '../Paginado/Paginado';
 import SearchBar from "../SearchBar/SearchBar";
 import style from './Home.mudule.css';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading);
   const allRecipes = useSelector((state) => state.recipes); //accedo a la parte del estado global que tiene las recetas y se la asigno a la constante allRecipes
   const [currentPage, setCurrentPage] = useState(1); //página actual
   const recipesPerPage = 9; //cantidas de recetas por pagina
@@ -22,8 +23,17 @@ const Home = () => {
     setCurrentPage(pageNumber);
   };//se actualiza currentpage cuando se hace click en la pagina
 
-  useEffect(() => { //una vez que el componente se monto, se despacha el getRecipes para traer las recetas
-    dispatch(getRecipes());
+  useEffect(() => {
+    dispatch(setLoading(true)); // establece el estado de carga a true
+  
+    dispatch(getRecipes())
+      .then(() => {
+        dispatch(setLoading(false)); // establece el estado de carga a false cuando se completa la obtención de las recetas
+      })
+      .catch((error) => {
+        console.error("Error fetching recipes:", error);
+        dispatch(setLoading(false)); //  maneja cualquier error y establecer el estado de carga a false
+      });
   }, [dispatch]);
 
 
@@ -51,41 +61,52 @@ const Home = () => {
   return (
     <div className="home">
       <h1 className="heading title">Smak</h1>
-      <h2 className= "heading subTitle">Sabores del alma</h2>
+      <h2 className="heading subTitle">Sabores del alma</h2>
       <div className="selectorsContainer">
-      <SearchBar/>
-      <select onChange={e=>handleOrderByName(e)} className="custom-select">
-          <option value="asc">Ascendente</option>
-          <option value="desc">Descendente</option>
+        <SearchBar />
+        <select onChange={e => handleOrderByName(e)} className="custom-select">
+          <option value="asc">Ascending order</option>
+          <option value="desc">Falling order</option>
         </select>
         <select onChange={event => handleFilterDiets(event)} className="custom-select">
-          <option value="All">Todas las Recetas</option>
-          <option value="gluten free">Sin Gluten</option>
-          <option value="dairy free">Sin Lácteos</option>
-          <option value="lacto ovo vegetarian">Lacto-Ovo-Vegetariana</option>
-          <option value="vegan">Vegana</option>
-          <option value="paleolithic">Paleo</option>
+          <option value="All">All Diets</option>
+          <option value="gluten free">Gluten Free</option>
+          <option value="dairy free">Dairy Free</option>
+          <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
+          <option value="vegan">Vegan</option>
+          <option value="paleolithic">Paleolithic</option>
           <option value="primal">Primal</option>
           <option value="whole 30">Whole30</option>
-          <option value="pescatarian">Pesca-vegetariana</option>
-          <option value="ketogenic">Keto</option>
-          <option value="fodmap friendly">Fodmap</option>
+          <option value="pescatarian">Pescatarian</option>
+          <option value="ketogenic">Ketogenic</option>
+          <option value="fodmap friendly">Fodmap Friendly</option>
         </select>
         <select onChange={event => handleFilterCreated(event)} className="custom-select">
-        <option value='all'>Todas</option>
-                    <option value='api'>Existente</option>
-                    <option value='createdInDataBase'>Creados</option>
+          <option value="all">All Recipes</option>
+          <option value="api">Existing</option>
+          <option value="createdInDataBase">User-created</option>
         </select>
+        {loading ? (
+           <div class="loader-wrapper">
+           <div class="loader">
+               <div class="loader loader--inner"></div>
+           </div>
+           </div>
+        ) : (
+          <>
+            <RecipesContainer recipes={currentRecipes} />
+            <Paginado
+              currentPage={currentPage}
+              recipesPerPage={recipesPerPage}
+              totalRecipes={allRecipes.length}
+              paginado={paginado}
+            />
+          </>
+        )}
       </div>
-      <RecipesContainer recipes={currentRecipes} />
-      <Paginado
-        currentPage={currentPage}
-        recipesPerPage={recipesPerPage}
-        totalRecipes={allRecipes.length}
-        paginado={paginado}
-      />
-      </div>
+    </div>
   );
+  
 };
 
 export default Home;

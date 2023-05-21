@@ -24,7 +24,7 @@ const RecipeCard = ({ recipe }) => {
         {formattedDiets.join(", ")}</h4>
         <div>
           <Link to={`/detail/${id}`}>
-            <button className={style.button}>Leer más</button>
+            <button className={style.button}>See more</button>
           </Link>
         </div>
       </div>

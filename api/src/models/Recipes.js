@@ -26,12 +26,12 @@ module.exports = (sequelize) => {
         allowNull: false,
        },
        healthScore:{
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         allowNull: false,
        },
        steps: {
-        type: DataTypes.ARRAY(DataTypes.JSON),
-        
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false,
       },
        createdInDataBase: {
         type: DataTypes.BOOLEAN,

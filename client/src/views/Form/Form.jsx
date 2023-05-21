@@ -8,18 +8,18 @@ const Form = () => {
     name: "",
     summary: "",
     diets: [],
-    healthScore: "",
+    healthScore: 0,
     image: "",
-    instructions: "",
+    instructions: [],
   });
 
   const [errors, setErrors] = useState({
-    name: null,
-    summary: null,
-    diets: null,
-    healthScore: null,
-    image: null,
-    instructions: null,
+    name: "",
+    summary: "",
+    diets: [],
+    healthScore: 0,
+    image: "",
+    instructions: [],
   });
 
   const validate = (form) => {
@@ -27,7 +27,7 @@ const Form = () => {
     if (!form.name) {
       setErrors((errors) => ({
         ...errors,
-        name: "Por favor, ingrese el nombre de la receta",
+        name: "Please, enter a recipe name.",
       }));
     } else if (form.name.length <= 60) {
       setErrors((errors) => ({
@@ -37,28 +37,28 @@ const Form = () => {
     } else {
       setErrors((errors) => ({
         ...errors,
-        name: "Por favor, ingrese un nombre con menos de 60 caracteres",
+        name: "Please, enter a name with less than 60 characters",
       }));
     }
 //validación para Summary
     if (!form.summary) {
       setErrors((errors) => ({
         ...errors,
-        summary: "Por favor, ingrese la descripción de la receta",
+        summary: "Please, enter a summary.",
       }));
     } else if (form.summary.length <= 100) {
       setErrors((errors) => ({ ...errors, summary: null }));
     } else {
       setErrors((errors) => ({
         ...errors,
-        summary: "La descripción debe tener menos de 60 caracteres",
+        summary: "Description must be less than 100 characters",
       }));
     }
 //validación para diets
     if (form.diets.length === 0) {
       setErrors((errors) => ({
         ...errors,
-        diets: "Por favor, seleccione la o las dietas.",
+        diets: "Please, select at least one diet type",
       }));
     } else {
       setErrors((errors) => ({
@@ -70,12 +70,12 @@ const Form = () => {
     if (!form.healthScore) {
       setErrors((errors) => ({
         ...errors,
-        healthScore: "Por favor, ingrese el nivel de comida saludable",
+        healthScore: "Please, enter a health score",
       }));
     } else if (isNaN(Number(form.healthScore)) || Number(form.healthScore) < 0 || Number(form.healthScore) > 100) {
       setErrors((errors) => ({
         ...errors,
-        healthScore: "El nivel de comida saludable debe ser un número entre 0 y 100",
+        healthScore: "The health Score must be a number between 0 and 100",
       }));
     } else {
       setErrors((errors) => ({
@@ -87,21 +87,21 @@ const Form = () => {
     if (!form.image) {
       setErrors((errors) => ({
         ...errors,
-        image: "Por favor, ingrese la URL de la imágen.",
+        image: "Please enter an image URL.",
       }));
     } else if (/^(ftp|http|https):\/\/[^ "]+\.(jpg|png)$/.test(form.image)) { //regex para url
       setErrors((errors) => ({ ...errors, image: null }));
     } else {
       setErrors((errors) => ({
         ...errors,
-        image: "Ingrese una URL válida",
+        image: "Please, enter a valid URL",
       }));
     }
 //validación para instructions
     if (!form.instructions) {
       setErrors((errors) => ({
         ...errors,
-        instructions: "Por favor, describa el paso a paso de la receta",
+        instructions: "Please, enter at least one step",
       }));
     } else if (form.instructions.length <= 500) {
       setErrors((errors) => ({
@@ -111,7 +111,7 @@ const Form = () => {
     } else {
       setErrors((errors) => ({
         ...errors,
-        instructions: "El máximo son 500 caracteres",
+        instructions: "You have exceeded 500 characters",
       }));
     }
 };
@@ -168,12 +168,12 @@ const Form = () => {
 
   return (
            <>
-              <NavLink to="/home" className="button-style">Volver</NavLink>
-              <h1>Anímate a compartir tu receta con nosotros</h1>
-              <h3>Créala aquí</h3>
+              <NavLink to="/home" className="button-style">Back to Home</NavLink>
+              <h1>Feel Free to share your recipe with us</h1>
+              <h3>Create it here</h3>
               <form className={style.form} onSubmit={submitHandler}>
                 <div>
-                    <label className={style.label} >Nombre: </label>
+                    <label className={style.label} >Name: </label>
                     <input
                         type="text"
                         name="name"
@@ -183,7 +183,7 @@ const Form = () => {
                   {errors.name && <span className={style.error}>{errors.name}</span>}
                 </div>
                 <div>
-                    <label className={style.label} >Descripción: </label>
+                    <label className={style.label} >Summary: </label>
                     <input
                        type="text"
                        name="summary"
@@ -193,7 +193,7 @@ const Form = () => {
                   {errors.summary && <span className={style.error}>{errors.summary}</span>}
                 </div>
                 <div>
-                    <label className={style.label} >Nivel de comida saludable: </label>
+                    <label className={style.label} >Health Score: </label>
                     <input
                         type="text"
                         name="healthScore"
@@ -203,7 +203,7 @@ const Form = () => {
                  {errors.healthScore !== null && <span className={style.error}>{errors.healthScore}</span>}
                 </div>
                 <div>
-                    <label className={style.label} >Imágen: </label>
+                    <label className={style.label} >Image: </label>
                     <input
                         type="text"
                         name="image"
@@ -213,7 +213,7 @@ const Form = () => {
                   {errors.image !== null && <span className={style.error}>{errors.image}</span>}
                 </div>
                 <div>
-                    <label className={style.label}  >Paso a paso: </label>
+                    <label className={style.label}>Step by step: </label>
                     <input
                         type="text"
                         name="instructions"
@@ -223,8 +223,10 @@ const Form = () => {
                   {errors.instructions !== null && <span className={style.error}>{errors.instructions}</span>}
                 </div>
                 <div>
-                  <label className={style.label} >Seleccioná el o los tipos de dietas: </label>
-                  <br />
+                  <label className={style.label} >Select the type of diet... you can select more than one: </label>
+                  <br/>
+                  <br/>
+                  <div>
                   <input
                         type="checkbox"
                         name="diets"
@@ -233,7 +235,7 @@ const Form = () => {
                         checked={form.diets.includes("81553869-8198-462a-b401-70ec2a8cb3cf")} 
                         onChange={changeHandler}
                   />
-                    Sin Gluten
+                    Gluten Free
                   <input
                         type="checkbox"
                         name="diets"
@@ -242,7 +244,7 @@ const Form = () => {
                         checked={form.diets.includes("4cedf10f-ecb3-4c3b-857c-ad635758a2bf")}
                         onChange={changeHandler}
                   />
-                    Sin Lacteos
+                    Dairy Free
                   <input
                         type="checkbox"
                         name="diets"
@@ -251,7 +253,7 @@ const Form = () => {
                         checked={form.diets.includes("996e3f03-098d-40bb-9cfb-b3a5e0f2125d")}
                         onChange={changeHandler}
                   />
-                    Lacto Ovo Vegetariana
+                    Lacto Ovo Vegetarian
                   <input
                         type="checkbox"
                         name="diets"
@@ -260,7 +262,7 @@ const Form = () => {
                         checked={form.diets.includes("fe979227-3638-4a03-80ca-59c63f55af93")}
                         onChange={changeHandler}
                   />
-                    Vegana
+                    Vegan
                   <input
                         type="checkbox"
                         name="diets"
@@ -269,7 +271,7 @@ const Form = () => {
                         checked={form.diets.includes("79bdb2ac-0ac9-459c-a916-73ebadda5688")}
                         onChange={changeHandler}
                   />
-                    Paleo
+                    Paleolithic
                   <input
                         type="checkbox"
                         name="diets"
@@ -296,7 +298,7 @@ const Form = () => {
                         checked={form.diets.includes("eab33792-1e40-4b6c-a58e-ebd41e946ced")}
                         onChange={changeHandler}
                   />
-                    Pesca-Vegetariana
+                    Pescatarian
                   <input
                         type="checkbox"
                         name="diets"
@@ -314,10 +316,12 @@ const Form = () => {
                         checked={form.diets.includes("8bd92500-f4f4-4795-bf31-8c3a2fa1171e")}
                         onChange={changeHandler}
                   />
-                    Fodmap 
+                    Fodmap Friendly
                   {errors.diets !== null && <span className={style.error}>{errors.diets }</span>}
                 </div>
-                 <button type="submit" disabled={!form.name || !form.summary || !form.instructions || !form.healthScore || !form.image || !form.diets}>Crear Receta</button>
+                </div>
+                <br />
+                 <button type="submit" disabled={!form.name || !form.summary || !form.instructions || !form.healthScore || !form.image || !form.diets}>Create Recipe</button>
               </form>
             </>
   );

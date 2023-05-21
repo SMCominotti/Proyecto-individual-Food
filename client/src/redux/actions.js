@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 export const GET_RECIPES = "GET_RECIPES";
 export const ERROR_GET_RECIPES = "ERROR_GET_RECIPES";
 export const FILTER_BY_DIETS = "FILTER_BY_DIETS";
@@ -12,12 +13,21 @@ export const ERROR_GET_DIETS = "ERROR_GET_DIETS";
 export const POST_RECIPES = "POST_RECIPES";
 export const CLEAN_DATA = 'CLEAN_DATA';
 export const GET_DETAILS = 'GET_DETAILS';
+export const SET_LOADING = "SET_LOADING";
+
+export const setLoading = (isLoading) => {
+  return {
+    type: SET_LOADING,
+    payload: isLoading,
+  };
+};
+
 
 export const getRecipes = () => {
     return async function (dispatch) {
       try {
         const json = await axios.get(`http://localhost:3001/recipes`);
-        return dispatch({
+        dispatch({
           type: GET_RECIPES,
           payload: json.data,
         });

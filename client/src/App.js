@@ -1,6 +1,7 @@
 import './App.css';
 import { Home, Landing, Form, Detail}  from "./views";
 import NavBar from './Components/NavBar/NavBar';
+import About from './Components/About/About';
 
 import {Route, useLocation} from "react-router-dom"
 
@@ -11,6 +12,7 @@ function App() {
       {location.pathname !== "/" && <NavBar/>}
        <Route exact path="/" render={() => <Landing/>}/> 
        <Route path="/home" render={() => <Home/>}/> 
+       <Route path="/about" render={() => <About/>}/> 
        <Route exact path="/detail/:idRecipes" component={Detail} />
        <Route path="/create" render={() => <Form/>}/> 
     </div>

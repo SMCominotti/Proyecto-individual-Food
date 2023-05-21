@@ -22,13 +22,13 @@ export default function SearchBar() {
     <div className={styles.searchBar}>
       <input
         type="text"
-        placeholder="Busca tu receta aquí"
+        placeholder="Find your recipe here"
         value={name}
         onChange={handleInputChange}
         className={styles.searchInput}
       />
       <button type="submit" onClick={handleSubmit} className={styles.searchButton}>
-        Buscar
+        Search
       </button>
     </div>
   );

@@ -1,4 +1,4 @@
-import { GET_RECIPES, FILTER_BY_DIETS, FILTER_CREATED, ORDER_BY_NAME, ERROR_GET_RECIPES, ERROR_GET_NAME_RECIPES, GET_NAME_RECIPES, ERROR_GET_DIETS ,GET_DIETS, CLEAN_DATA, GET_DETAILS } from "./actions";
+import { SET_LOADING, GET_RECIPES, FILTER_BY_DIETS, FILTER_CREATED, ORDER_BY_NAME, ERROR_GET_RECIPES, ERROR_GET_NAME_RECIPES, GET_NAME_RECIPES, ERROR_GET_DIETS ,GET_DIETS, CLEAN_DATA, GET_DETAILS } from "./actions";
 
 const initialState = {
   recipes: [],//se utiliza para almacenar las recetas que se muestran en la aplicación después de aplicar algún filtro o ordenamiento.
@@ -6,12 +6,19 @@ const initialState = {
   error: null, // Valor inicial para representar la ausencia de error
   allDiets:[],
   recipeDetail:{},
+  loading: false,
 };
 
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_RECIPES:
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+
+     case GET_RECIPES:
       return {
         ...state,
         recipes: action.payload,

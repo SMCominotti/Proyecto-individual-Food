@@ -12,11 +12,11 @@ const Landing = () => {
 
   return (
     <>
-      <h3 className={`${style.heading} ${style.bienvenidos}`}>Bienvenidos a</h3>
+      <h3 className={style.bienvenidos}>Welcome to</h3>
       <h1 className={`${style.heading} ${style.title}`}>SMAK</h1>
       <h2 className={`${style.heading} ${style.subTitle}`}>Sabores del alma</h2>
       <Link to="/home">
-        <button className={style.ctaButton}>Ingresar</button>
+        <button className={style.ctaButton}>Get in</button>
       </Link>
 
     </>

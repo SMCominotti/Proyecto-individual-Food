@@ -5,7 +5,8 @@ const NavBar = () => {
     return(
         <div className={style.mainContainer}>
             <NavLink to="/home">HOME</NavLink>
-            <NavLink to="/create">CREAR RECETAS</NavLink>
+            <NavLink to="/create">CREATE RECIPES</NavLink>
+            <NavLink  to='/about'>ABOUT</NavLink>
         </div>
     )
 }

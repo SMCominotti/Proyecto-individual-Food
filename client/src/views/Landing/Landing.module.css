@@ -1,3 +1,5 @@
+
+
 .landing {
   background-image: url('../../asset/image/pizzafuego.jpg');
   background-size: cover;
@@ -18,8 +20,9 @@
 }
 
 .bienvenidos {
-  font-family: "Playfair Display";
-  font-size: 20px;
+  font-family: 'Prata', serif;
+  font-size: 18px;
+  letter-spacing: 6px;
   margin-top: 50px;
   margin-bottom: -30px;
 }
@@ -33,14 +36,16 @@
 
 .ctaButton {
   background-color: black;
-  color: white;
+  color: rgb(237, 233, 6);
   border: none;
   border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 12px;
-  letter-spacing: 8px;
+  border: solid 1px yellow;
+  padding: 10px 10px;
+  font-size: 16px;
+  letter-spacing: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'Dancing Script', cursive;
 }
 
 @keyframes pulse {
