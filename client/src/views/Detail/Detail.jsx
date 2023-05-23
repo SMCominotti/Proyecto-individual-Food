@@ -30,18 +30,6 @@ const Detail = () => {
     };
   }, [dispatch, idRecipes]);
   
-
-  // const renderSteps = () => {
-  //   if (Array.isArray(recipeDetail.steps)) {
-  //     return recipeDetail.steps.map((step, index) => (
-  //       <div key={index}>
-  //         <p>Step number: {step.number}</p>
-  //         <p>{step.step}</p>
-  //       </div>
-  //     ));
-  //   }
-  //   return null;
-  // };
   const createMarkup = (html) => {
     return { __html: html };
   };

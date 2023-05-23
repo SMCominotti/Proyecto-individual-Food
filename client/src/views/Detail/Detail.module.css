@@ -46,7 +46,7 @@
   padding: 20px;
   box-sizing: border-box;
   margin-bottom: 20px;
-}
+  }
 
 .diets {
   display: flex;
@@ -71,12 +71,12 @@
 .backButton {
   color: white;
   background-color: #0d0101;
-  padding: 10px 20px !important;
+  padding: 5px 20px !important;
   border-radius: 4px;
   font-family: "Playfair Display";
   border: solid 1px rgb(247, 8, 116);
   text-decoration: none;
-}
+  }
 
 .backButton:hover {
   background-color: #3d022c;
