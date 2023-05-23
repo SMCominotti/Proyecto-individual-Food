@@ -1,0 +1,55 @@
+body.thank-page {
+    overflow: hidden;
+    height: 100vh;
+  }
+  
+  .th {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    background-image: url('../../asset/image/logo.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 40%;
+  }
+  
+  .content {
+    flex: 1;
+  }
+  
+  .buttonContainer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .ctaButton {
+    background-color: black;
+    color: rgb(237, 233, 6);
+    border: none;
+    border-radius: 10px;
+    border: solid 1px yellow;
+    padding: 10px 10px;
+    font-size: 16px;
+    letter-spacing: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Dancing Script', cursive;
+    margin-bottom: 20px;
+  }
+  
+  @keyframes pulse {
+    from {
+      box-shadow: 0 0 25px #f504d5, 0 0 50px #1a0011;
+    }
+  }
+  
+  .ctaButton:focus {
+    animation: pulse 0.5s ease-in-out;
+  }
+  

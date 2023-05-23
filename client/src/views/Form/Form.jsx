@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import style from "./Form.module.css";
-import { NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 const Form = () => {
   const [form, setForm] = useState({
@@ -21,6 +21,11 @@ const Form = () => {
     image: null,
     steps: null,
   });
+
+  const [redirectToThank, setRedirectToThank] = useState(false);
+  const [hasErrors, setHasErrors] = useState(false);
+
+
 
   const validate = (form) => {
     //Validación para name
@@ -114,6 +119,9 @@ const Form = () => {
         steps: "El máximo son 800 caracteres",
       }));
     }
+    // Verificar si hay errores en algún campo
+  const errorsExist = Object.values(errors).some((error) => error !== null);
+  setHasErrors(errorsExist);
 };
  
   const changeHandler = (event) => {
@@ -161,7 +169,7 @@ const Form = () => {
       .post("http://localhost:3001/recipes/", requestBody)
       .then((res) => {
         alert("Recipe created successfully");
-        setForm({ // Esto es para volver a dejar los campos en blanco
+        setForm({ //para volver a dejar los campos en blanco
           name: "",
           summary: "",
           diets: [],
@@ -169,15 +177,19 @@ const Form = () => {
           image: "",
           steps: "",
         });
+        setRedirectToThank(true);
       })
       .catch((err) => alert(err.response.data.error));
   };
+
+  if (redirectToThank) {
+    return <Redirect to="/thank" />;
+  }
   
   
   return (
            <>
-              <NavLink to="/home" className="button-style">Back to Home</NavLink>
-              <h1>Feel Free to share your recipe with us</h1>
+             <h1>Feel Free to share your recipe with us</h1>
               <h3>Create it here</h3>
               <form className={style.form} onSubmit={submitHandler}>
                 <div>
@@ -327,7 +339,7 @@ const Form = () => {
                 </div>
                 </div>
                 <br />
-                 <button type="submit" disabled={!form.name || !form.summary || !form.steps || !form.healthScore ||!form.image || !form.diets}>Create Recipe</button>
+                <button type="submit" disabled={!form.name || !form.summary || !form.steps || !form.healthScore || !form.image || !form.diets || hasErrors}>Create Recipe</button>
               </form>
             </>
   );
