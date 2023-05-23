@@ -120,7 +120,7 @@ const Detail = () => {
           {recipeDetail.steps && recipeDetail.steps.length > 0 && (
             <div>
               <h4 className={styles.title}>Step by Step: </h4>
-              <div className={styles.steps}>{renderSteps()}</div>
+              <div className={styles.steps}>{renderSteps()} </div>
             </div>
           )}
            <Link to="/home" className={styles.backButton}>
