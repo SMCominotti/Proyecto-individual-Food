@@ -16,11 +16,8 @@ module.exports = (sequelize) => {
       },
        image:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-          isUrl:true,
-        }
-       },
+        defaultValue: '../image/logo.png',
+      },
        summary:{
         type: DataTypes.TEXT,
         allowNull: false,
@@ -31,8 +28,7 @@ module.exports = (sequelize) => {
        },
        steps: {
         type: DataTypes.ARRAY(DataTypes.TEXT),
-        allowNull: false,
-      },
+       },
        createdInDataBase: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

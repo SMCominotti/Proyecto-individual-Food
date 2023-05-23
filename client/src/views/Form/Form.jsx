@@ -8,18 +8,18 @@ const Form = () => {
     name: "",
     summary: "",
     diets: [],
-    healthScore: 0,
+    healthScore: "",
     image: "",
-    instructions: [],
+    steps: [],
   });
 
   const [errors, setErrors] = useState({
-    name: "",
-    summary: "",
-    diets: [],
-    healthScore: 0,
-    image: "",
-    instructions: [],
+    name: null,
+    summary: null,
+    diets: null,
+    healthScore: null,
+    image: null,
+    steps: null,
   });
 
   const validate = (form) => {
@@ -46,12 +46,12 @@ const Form = () => {
         ...errors,
         summary: "Please, enter a summary.",
       }));
-    } else if (form.summary.length <= 100) {
+    } else if (form.summary.length <= 300) {
       setErrors((errors) => ({ ...errors, summary: null }));
     } else {
       setErrors((errors) => ({
         ...errors,
-        summary: "Description must be less than 100 characters",
+        summary: "Description must be less than 300 characters",
       }));
     }
 //validación para diets
@@ -97,25 +97,24 @@ const Form = () => {
         image: "Please, enter a valid URL",
       }));
     }
-//validación para instructions
-    if (!form.instructions) {
+//validación para Steps
+    if (!form.steps) {
       setErrors((errors) => ({
         ...errors,
-        instructions: "Please, enter at least one step",
+        steps: "Please, enter at least one step",
       }));
-    } else if (form.instructions.length <= 500) {
+    } else if (form.steps.length <= 800) {
       setErrors((errors) => ({
         ...errors,
-        instructions: null,
+        steps: null,
       }));
     } else {
       setErrors((errors) => ({
         ...errors,
-        instructions: "You have exceeded 500 characters",
+        steps: "El máximo son 800 caracteres",
       }));
     }
 };
-
  
   const changeHandler = (event) => {
       const property = event.target.name; //Almaceno el nombre que cambió en property
@@ -135,7 +134,7 @@ const Form = () => {
             diets: form.diets.filter((diet) => diet !== dietId), // Filtro por el ID de la dieta
           }));
         }
-    } else { //si el cambio se produce en otro campo que no sea diets
+        } else { //si el cambio se produce en otro campo que no sea diets
           setForm({
             ...form,
             [property]: value, //actualizo el formulario con el valor que cambio 
@@ -149,23 +148,32 @@ const Form = () => {
   
   const submitHandler = (event) => {
     event.preventDefault();
+  
+    // Conversión del campo steps
+    const stepsArray = form.steps.split("\n").map((step) => step.trim());
+  //en el formulario las personas escriben (string) pero yo necesito que me llegue la info al back como array y que cada salto de pagina sea un step nuevo
+    const requestBody = {
+      ...form,
+      steps: stepsArray.map((step, index) => `<b>${index + 1}</b> ${step}`),
+    };//esto lo hago para que tenga el mismo formato que la API, que tenga un numero en negrita antes del step
+  
     axios
-      .post("http://localhost:3001/recipes/", form)
+      .post("http://localhost:3001/recipes/", requestBody)
       .then((res) => {
-        alert("Receta creada correctamente");
-        setForm({ //esto es para volver a dejar los campos en blanco
+        alert("Recipe created successfully");
+        setForm({ // Esto es para volver a dejar los campos en blanco
           name: "",
           summary: "",
           diets: [],
           healthScore: "",
           image: "",
-          instructions: "",     
+          steps: "",
         });
       })
       .catch((err) => alert(err.response.data.error));
   };
   
-
+  
   return (
            <>
               <NavLink to="/home" className="button-style">Back to Home</NavLink>
@@ -183,13 +191,12 @@ const Form = () => {
                   {errors.name && <span className={style.error}>{errors.name}</span>}
                 </div>
                 <div>
-                    <label className={style.label} >Summary: </label>
-                    <input
-                       type="text"
-                       name="summary"
-                       value={form.summary}
-                       onChange={changeHandler}
-                    />
+                    <label className={style.label}>Summary: </label>
+                    <textarea className={style.textarea}
+                      name="summary"
+                      value={form.summary}
+                      onChange={changeHandler}
+                    />          
                   {errors.summary && <span className={style.error}>{errors.summary}</span>}
                 </div>
                 <div>
@@ -213,20 +220,19 @@ const Form = () => {
                   {errors.image !== null && <span className={style.error}>{errors.image}</span>}
                 </div>
                 <div>
-                    <label className={style.label}>Step by step: </label>
-                    <input
-                        type="text"
-                        name="instructions"
-                        value={form.instructions}
-                        onChange={changeHandler}
+                    <label className={style.label} >Step by step: </label>
+                    <textarea className={style.textarea}
+                      name="steps"
+                      value={form.steps}
+                      onChange={changeHandler}
                     />
-                  {errors.instructions !== null && <span className={style.error}>{errors.instructions}</span>}
+                    {errors.steps !== null && <span className={style.error}>{errors.steps}</span>}
                 </div>
                 <div>
                   <label className={style.label} >Select the type of diet... you can select more than one: </label>
                   <br/>
                   <br/>
-                  <div>
+                <div>
                   <input
                         type="checkbox"
                         name="diets"
@@ -317,11 +323,11 @@ const Form = () => {
                         onChange={changeHandler}
                   />
                     Fodmap Friendly
-                  {errors.diets !== null && <span className={style.error}>{errors.diets }</span>}
+                    {errors.diets !== null && <span className={style.error}>{errors.diets}</span>}
                 </div>
                 </div>
                 <br />
-                 <button type="submit" disabled={!form.name || !form.summary || !form.instructions || !form.healthScore || !form.image || !form.diets}>Create Recipe</button>
+                 <button type="submit" disabled={!form.name || !form.summary || !form.steps || !form.healthScore ||!form.image || !form.diets}>Create Recipe</button>
               </form>
             </>
   );

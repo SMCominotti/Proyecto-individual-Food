@@ -12,10 +12,13 @@ const cleanArray = (array) => {
       summary: elem.summary,
       healthScore: elem.healthScore,
       diets: elem.diets,
-      steps: elem.analyzedInstructions
-        .flatMap((instruction) => instruction.steps)
-        .filter((step) => step && step.number && step.step)
-        .map(({ number, step }) => ({ number, step })),
+      steps: elem.analyzedInstructions[0]?.steps.map(step => {
+        return `<b>${step.number}</b> ${step.step}<br>`
+    }),
+      // steps: elem.analyzedInstructions
+      //   .flatMap((instruction) => instruction.steps)
+      //   .filter((step) => step && step.number && step.step)
+      //   .map(({ number, step }) => ({ number, step })),
       createdInDataBase: false
     };
   });

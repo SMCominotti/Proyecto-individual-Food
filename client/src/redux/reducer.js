@@ -1,4 +1,4 @@
-import { SET_LOADING, GET_RECIPES, FILTER_BY_DIETS, FILTER_CREATED, ORDER_BY_NAME, ERROR_GET_RECIPES, ERROR_GET_NAME_RECIPES, GET_NAME_RECIPES, ERROR_GET_DIETS ,GET_DIETS, CLEAN_DATA, GET_DETAILS } from "./actions";
+import { SET_LOADING, GET_RECIPES, FILTER_BY_DIETS, FILTER_CREATED, ORDER_BY_NAME, ERROR_GET_RECIPES, ERROR_GET_NAME_RECIPES, GET_NAME_RECIPES, ERROR_GET_DIETS ,GET_DIETS, CLEAN_DATA, GET_DETAILS, POST_RECIPES , ORDER_BY_SCORE } from "./actions";
 
 const initialState = {
   recipes: [],//se utiliza para almacenar las recetas que se muestran en la aplicación después de aplicar algún filtro o ordenamiento.
@@ -40,9 +40,9 @@ const rootReducer = (state = initialState, action) => {
         }
 
   // case POST_RECIPES:
- //   return {
-//       ...state,
-//   }
+  //  return {
+  //     ...state,
+  // }
         
     case FILTER_BY_DIETS:
       const allRecipes = state.allRecipes;
@@ -94,6 +94,45 @@ const rootReducer = (state = initialState, action) => {
         recipes: orderedArr,
         error: null, // Reinicia el estado de error a null
       };
+    //   case ORDER_BY_SCORE:
+    //     let Hscore =
+    //     action.payload === "ScoreMax"
+    //     ? state.recipes.sort(function (a, b) {
+    //         if (a.score > b.score) {
+    //           return 1;
+    //         }
+    //         if (b.score  > a.score ) {
+    //           return -1;
+    //         }
+    //         return 0;
+    //       })
+    //     : state.recipes.sort(function (a, b) {
+    //         if (a.score  > b.score ) {
+    //           return -1;
+    //         }
+    //         if (b.score > a.score ) {
+    //           return 1;
+    //         }
+    //         return 0;
+    //       });
+    // return {
+    //   ...state,
+    //   recipes: Hscore,
+    //   error: null, // Reinicia el estado de error a null
+    // }
+    
+    case ORDER_BY_SCORE:
+      let sortedArr2 = state.recipes
+      if (action.payload === "notHealth")
+        sortedArr2.sort((a, b) => a.healthScore - b.healthScore);
+      if (action.payload === "health")
+        sortedArr2.sort((a, b) => b.healthScore - a.healthScore);
+        return{
+          ...state,
+          recipes: sortedArr2
+}
+
+
     case GET_DETAILS:
       return{
         ...state,

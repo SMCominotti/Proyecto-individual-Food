@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export const GET_RECIPES = "GET_RECIPES";
 export const ERROR_GET_RECIPES = "ERROR_GET_RECIPES";
 export const FILTER_BY_DIETS = "FILTER_BY_DIETS";
@@ -14,6 +13,7 @@ export const POST_RECIPES = "POST_RECIPES";
 export const CLEAN_DATA = 'CLEAN_DATA';
 export const GET_DETAILS = 'GET_DETAILS';
 export const SET_LOADING = "SET_LOADING";
+export const ORDER_BY_SCORE = "ORDER_BY_SCORE";
 
 export const setLoading = (isLoading) => {
   return {
@@ -78,12 +78,14 @@ export const getNameRecipes = (name) => {
  
 
 
-  // export function postRecipes(payload) {
-  //   return async function(dispatch) {
-  //     const response = await axios.post(`http://localhost:3001/recipes`, payload);
-  //     return  response
-  //   };
-  // }
+    // export const postRecipes = (form) => {
+    //   form.steps = form.steps.split(',').map((step) => step.trim());
+    //   return async (dispatch) => {
+    //     const response = await axios.post(`http://localhost:3001/recipes`, form);
+    //     return response;
+    //   };
+    // };
+    
   
   
     export function filterRecipesByDiets(payload){
@@ -106,6 +108,13 @@ export const getNameRecipes = (name) => {
             payload //el "payload" puede ser cualquier valor que se pase como argumento al llamar a esta acción
       }
     }
+
+    export function orderByScore(payload) {
+      return {
+          type: 'ORDER_BY_SCORE',
+          payload
+      }
+  };
 
     export const getDetails = (idRecipes) => {
       return async function (dispatch) {

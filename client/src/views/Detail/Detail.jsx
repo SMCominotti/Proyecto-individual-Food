@@ -31,18 +31,35 @@ const Detail = () => {
   }, [dispatch, idRecipes]);
   
 
+  // const renderSteps = () => {
+  //   if (Array.isArray(recipeDetail.steps)) {
+  //     return recipeDetail.steps.map((step, index) => (
+  //       <div key={index}>
+  //         <p>Step number: {step.number}</p>
+  //         <p>{step.step}</p>
+  //       </div>
+  //     ));
+  //   }
+  //   return null;
+  // };
+  const createMarkup = (html) => {
+    return { __html: html };
+  };
+  
   const renderSteps = () => {
     if (Array.isArray(recipeDetail.steps)) {
       return recipeDetail.steps.map((step, index) => (
-        <div key={index}>
-          <p>Step number: {step.number}</p>
-          <p>{step.step}</p>
+        <div className={styles.stepContainer} key={index}>
+          <p
+            className={styles.step}
+            dangerouslySetInnerHTML={createMarkup(step)}
+          />
         </div>
       ));
     }
     return null;
   };
-
+  
   const renderDiets = () => {
     if (Array.isArray(recipeDetail.diets)) {
       if (typeof recipeDetail.diets[0] === 'string') {

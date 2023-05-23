@@ -14,10 +14,14 @@ module.exports = async (name) => {
         summary: elem.summary,
         healthScore: elem.healthScore,
         diets: elem.diets,
-        steps: elem.analyzedInstructions //step se encuentra dentro de esta propiedad
-          .flatMap((instruction) => instruction.steps) //aplico FlatMap para combinar todos los arrays en uno solo (de la propiedad steps)
-          .filter((step) => step && step.number && step.step) //mediante un filter elimino los que sean nulos, no tengan numer de pasos o texto dentro de step
-          .map(({ number, step }) => ({ number, step })),//hago un map tomando solo las propiedades number y step  
+        steps: elem.analyzedInstructions[0]?.steps.map(step => {
+          return `<b>${step.number}</b> ${step.step}<br>`
+      }),
+
+        // steps: elem.analyzedInstructions //step se encuentra dentro de esta propiedad
+        //   .flatMap((instruction) => instruction.steps) //aplico FlatMap para combinar todos los arrays en uno solo (de la propiedad steps)
+        //   .filter((step) => step && step.number && step.step) //mediante un filter elimino los que sean nulos, no tengan numer de pasos o texto dentro de step
+        //   .map(({ number, step }) => ({ number, step })),//hago un map tomando solo las propiedades number y step  
         createdInDataBase: false
         };
     });

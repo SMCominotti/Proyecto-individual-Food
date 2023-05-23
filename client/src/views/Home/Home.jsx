@@ -1,7 +1,7 @@
 import RecipesContainer from "../../Components/RecipesContainer/RecipesContainer";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecipes, filterRecipesByDiets, filterCreated, orderByName , setLoading, } from "../../redux/actions";
+import { getRecipes, filterRecipesByDiets, filterCreated, orderByName , setLoading, orderByScore } from "../../redux/actions";
 import Paginado from '../Paginado/Paginado';
 import SearchBar from "../SearchBar/SearchBar";
 import style from './Home.mudule.css';
@@ -17,7 +17,7 @@ const Home = () => {
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage; //y con esta obtengo el indice de la primer receta que se debe mostrar en la pagina. 
   const currentRecipes = allRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);//esto se modifica dependiendo de la pagina en donde este. Con esto obtengo el fragmento que se muestra por pagina
 
-  const [orden, setOrden] = useState("")
+  const [order, setOrder] = useState("")
 
   const paginado = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -47,7 +47,7 @@ const Home = () => {
     event.preventDefault();
     dispatch(filterCreated(event.target.value));
     setCurrentPage(1);
-    setOrden(`Ordenado ${event.target.value}`);
+    setOrder(`Ordenado ${event.target.value}`);
   }
   //cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por creado.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
 
@@ -55,8 +55,17 @@ const Home = () => {
     event.preventDefault();
     dispatch(orderByName(event.target.value));
     setCurrentPage(1);
-    setOrden(`Ordenado ${event.target.value}`);
+    setOrder(`Ordenado ${event.target.value}`);
   }//cuando se selecciona este filtro se despacha la accion y el valor seleccionado se pasa como argumento para filtrar por orden alfabetico.Además, se reinicia la página actual y se actualiza el estado orden con el valor seleccionado.
+
+  
+  function handleScore(event) {
+      if(!event.target.value) return dispatch(getRecipes())
+      // event.preventDefaults()
+      dispatch(orderByScore(event.target.value))
+      setCurrentPage(1)
+      setOrder(`Ordenado ${event.target.value}`)
+    }
 
   return (
     <div className="home">
@@ -64,12 +73,23 @@ const Home = () => {
       <h2 className="heading subTitle">Sabores del alma</h2>
       <div className="selectorsContainer">
         <SearchBar />
-        <select onChange={e => handleOrderByName(e)} className="custom-select">
-          <option value="asc">Ascending order</option>
-          <option value="desc">Falling order</option>
+        <select onChange={event => handleScore(event)} className="custom-select">
+                    <option value=''> ORDER BY SCORE </option>
+                    <option value='health'> Helthier</option>
+                    <option value='notHealth'> Less Healthy </option>
+                </select>
+        {/* <select onChange={event => handleScore(event)} className="custom-select">
+          <option value='Order By Score'> ORDER BY SCORE </option>
+          <option value='ScoreMax'> Score Max</option>
+          <option value='ScoreMin'> Score Min </option>
+        </select> */}
+        <select onChange={event => handleOrderByName(event)} className="custom-select">
+          <option value='Alphabetical Order'> ALPHABETICAL ORDER </option>
+          <option value="asc">Ascending Order</option>
+          <option value="desc">Falling Order</option>
         </select>
         <select onChange={event => handleFilterDiets(event)} className="custom-select">
-          <option value="All">All Diets</option>
+          <option value="All">ALL DIETS</option>
           <option value="gluten free">Gluten Free</option>
           <option value="dairy free">Dairy Free</option>
           <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
@@ -82,9 +102,9 @@ const Home = () => {
           <option value="fodmap friendly">Fodmap Friendly</option>
         </select>
         <select onChange={event => handleFilterCreated(event)} className="custom-select">
-          <option value="all">All Recipes</option>
+          <option value="all">ALL RECIPES</option>
           <option value="api">Existing</option>
-          <option value="createdInDataBase">User-created</option>
+          <option value="createdInDataBase">User-Created</option>
         </select>
         {loading ? (
            <div class="loader-wrapper">
