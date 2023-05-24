@@ -10,35 +10,36 @@ const Detail = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
   const recipeDetail = useSelector((state) => state.recipeDetail);
+  //obtengo los valores del estado global y quedan atentos a cambios
+//useSelector indica que esta suscrito al store y queda atento ante actualizaciones.
 
   const { idRecipes } = useParams();
 
   useEffect(() => {
-    dispatch(setLoading(true)); // Establece el estado de carga a true
-    dispatch(getDetails(idRecipes))
-      .then(() => {
+    dispatch(setLoading(true)); // Establece el estado de carga a true 
+    dispatch(getDetails(idRecipes)) //Traigo las recetas con el detalle del id que recibo por useParams
+      .then(() => { //para ejecutar el código cuando la obtención de los detalles de la receta se haya completado.
         dispatch(setLoading(false)); // Establece el estado de carga a false cuando se completa la obtención de las recetas
       })
       .catch((error) => {
-        console.error("Error fetching recipes:", error);
+        console.error("Error fetching recipes:", error); //error al obtener las recetas
         dispatch(cleanData()); // Limpia los datos en caso de error
-        dispatch(setLoading(false)); // Establece el estado de carga a false
+        dispatch(setLoading(false)); // Establece el estado de carga a false una vez que ya obtuve las recetas y su respuesta
       });
-  
-    return () => {
+   return () => {
       dispatch(cleanData()); // Limpia los datos al desmontar el componente
     };
-  }, [dispatch, idRecipes]);
+  }, [dispatch, idRecipes]);//idRecipe indica que eso sucede cuando el componente se actualiza
   
+
   const createMarkup = (html) => {
     return { __html: html };
   };
-  
   const renderSteps = () => {
-    if (Array.isArray(recipeDetail.steps)) {
+    if (Array.isArray(recipeDetail.steps)) {//Verifico si es un Array
       return recipeDetail.steps.map((step, index) => (
         <div className={styles.stepContainer} key={index}>
-          <p
+          <p //Renderizo cada paso dentro de un div, y dentro del mismo en un <p>
             className={styles.step}
             dangerouslySetInnerHTML={createMarkup(step)}
           />
@@ -47,16 +48,18 @@ const Detail = () => {
     }
     return null;
   };
-  
+  //Esto permite renderizar el HTML de manera segura sin que se escape ni se trate como texto normal.
+
+
   const renderDiets = () => {
     if (Array.isArray(recipeDetail.diets)) {
-      if (typeof recipeDetail.diets[0] === 'string') {
-        // Si los tipos de dietas son un array de strings (API)
-        return recipeDetail.diets.join(', ');
-      } else if (typeof recipeDetail.diets[0] === 'object') {
-        // Si los tipos de dietas son un array de objetos (base de datos)
-        return recipeDetail.diets.map((diet) => diet.name).join(', ');
-      }
+        if (typeof recipeDetail.diets[0] === 'string') {
+          // Si los tipos de dietas son un array de strings (API)
+          return recipeDetail.diets.join(', ');
+        } else if (typeof recipeDetail.diets[0] === 'object') {
+          // Si los tipos de dietas son un array de objetos (base de datos)
+          return recipeDetail.diets.map((diet) => diet.name).join(', ');
+        }
     }
     return null;
   };
@@ -67,7 +70,7 @@ const Detail = () => {
     return tmp.textContent || tmp.innerText || '';
   };
 
-
+  //, stripTags se utiliza para eliminar etiquetas HTML de una cadena de texto antes de mostrarla, mientras que createMarkup y dangerouslySetInnerHTML se utilizan para renderizar contenido HTML dentro de un componente de React. 
 
   if (!recipeDetail.id) {
     return (
@@ -96,7 +99,6 @@ const Detail = () => {
     );
   }
   
-
   return (
     <div className={styles.container}>
       {loading ? (

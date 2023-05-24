@@ -15,10 +15,6 @@ const cleanArray = (array) => {
       steps: elem.analyzedInstructions[0]?.steps.map(step => {
         return `<b>${step.number}</b> ${step.step}<br>`
     }),
-      // steps: elem.analyzedInstructions
-      //   .flatMap((instruction) => instruction.steps)
-      //   .filter((step) => step && step.number && step.step)
-      //   .map(({ number, step }) => ({ number, step })),
       createdInDataBase: false
     };
   });

@@ -15,7 +15,7 @@ const rootReducer = (state = initialState, action) => {
     case SET_LOADING:
       return {
         ...state,
-        loading: action.payload,
+        loading: action.payload,//representa el nuevo estado de carga (loading) que se desea establecer en el estado global de la aplicación.
       };
 
      case GET_RECIPES:
@@ -43,6 +43,13 @@ const rootReducer = (state = initialState, action) => {
   //  return {
   //     ...state,
   // }
+
+  //case REMOVE_RECIP:
+  //return{
+  // ...state,
+  //recipes: payload
+  //allRecipes:payload
+  //}
         
     case FILTER_BY_DIETS:
       const allRecipes = state.allRecipes;
@@ -58,20 +65,23 @@ const rootReducer = (state = initialState, action) => {
           error: null, // Reinicia el estado de error a null
         };
     case FILTER_CREATED:
-      const allRecipes2 = state.allRecipes;
+      const allRecipes2 = state.allRecipes; //Se crea una copia del estado con todas las recetas
       const createdFilter =
-        action.payload === "createdInDataBase"
-          ? allRecipes2.filter((element) => element.createdInDataBase)
-          : allRecipes2.filter((element) => !element.createdInDataBase);
+        action.payload === "createdInDataBase" //se evaluan solo las que tengan esta propiedad
+          ? allRecipes2.filter((element) => element.createdInDataBase) //se filtran por un lado las que tengan esa propiedad en true
+          : allRecipes2.filter((element) => !element.createdInDataBase); //y por otro las que lo tengan en false
         return {
           ...state,
           recipes: action.payload === "all" ? allRecipes2 : createdFilter,
+          //Si action.payload es igual a "all",muestro todas las recetas (sin filtro)= allRecipe2
+          // si no es all,  se asigna createdFilter al estado recipes, lo que corresponde a las recetas filtradas según la condición de createdInDataBase.
           error: null, // Reinicia el estado de error a null
         };
-    case ORDER_BY_NAME:
+    
+        case ORDER_BY_NAME:
       let orderedArr =
         action.payload === "asc"
-          ? state.recipes.sort(function (a, b) {
+          ? state.recipes.sort(function (a, b) { //si es ascendente
               if (a.name > b.name) {
                 return 1;
               }
@@ -80,7 +90,7 @@ const rootReducer = (state = initialState, action) => {
               }
               return 0;
             })
-          : state.recipes.sort(function (a, b) {
+          : state.recipes.sort(function (a, b) { //si es descendente
               if (a.name > b.name) {
                 return -1;
               }
@@ -94,43 +104,18 @@ const rootReducer = (state = initialState, action) => {
         recipes: orderedArr,
         error: null, // Reinicia el estado de error a null
       };
-    //   case ORDER_BY_SCORE:
-    //     let Hscore =
-    //     action.payload === "ScoreMax"
-    //     ? state.recipes.sort(function (a, b) {
-    //         if (a.score > b.score) {
-    //           return 1;
-    //         }
-    //         if (b.score  > a.score ) {
-    //           return -1;
-    //         }
-    //         return 0;
-    //       })
-    //     : state.recipes.sort(function (a, b) {
-    //         if (a.score  > b.score ) {
-    //           return -1;
-    //         }
-    //         if (b.score > a.score ) {
-    //           return 1;
-    //         }
-    //         return 0;
-    //       });
-    // return {
-    //   ...state,
-    //   recipes: Hscore,
-    //   error: null, // Reinicia el estado de error a null
-    // }
+   
     
     case ORDER_BY_SCORE:
-      let sortedArr2 = state.recipes
+      let sortedArr2 = state.recipes //Para realizar el ordenamiento en base a este arreglo sin modificar directamente el estado.
       if (action.payload === "notHealth")
-        sortedArr2.sort((a, b) => a.healthScore - b.healthScore);
+        sortedArr2.sort((a, b) => a.healthScore - b.healthScore); //se aplica ascendente. Ordena de menor a mayor
       if (action.payload === "health")
         sortedArr2.sort((a, b) => b.healthScore - a.healthScore);
         return{
           ...state,
           recipes: sortedArr2
-}
+    }
 
 
     case GET_DETAILS:

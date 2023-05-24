@@ -15,6 +15,7 @@ export const GET_DETAILS = 'GET_DETAILS';
 export const SET_LOADING = "SET_LOADING";
 export const ORDER_BY_SCORE = "ORDER_BY_SCORE";
 
+//Loading
 export const setLoading = (isLoading) => {
   return {
     type: SET_LOADING,
@@ -22,7 +23,7 @@ export const setLoading = (isLoading) => {
   };
 };
 
-
+//getRecipes
 export const getRecipes = () => {
     return async function (dispatch) {
       try {
@@ -40,6 +41,7 @@ export const getRecipes = () => {
     };
   };
 
+  //getName
 export const getNameRecipes = (name) => {
     return async function (dispatch) {
       try {
@@ -58,6 +60,7 @@ export const getNameRecipes = (name) => {
     };
   };
 
+//getDiets
   export const getDiets = () => {
     return async function (dispatch) {
       try {
@@ -72,50 +75,7 @@ export const getNameRecipes = (name) => {
       }
     };
   
-    export const cleanData = () => {
-      return { type: CLEAN_DATA };
-    };
- 
-
-
-    // export const postRecipes = (form) => {
-    //   form.steps = form.steps.split(',').map((step) => step.trim());
-    //   return async (dispatch) => {
-    //     const response = await axios.post(`http://localhost:3001/recipes`, form);
-    //     return response;
-    //   };
-    // };
-    
-  
-  
-    export function filterRecipesByDiets(payload){
-      return{
-            type: FILTER_BY_DIETS,
-            payload //el "payload" puede ser cualquier valor que se pase como argumento al llamar a esta acción
-        }
-    }
-
-    export function filterCreated(payload) {
-      return {
-            type: FILTER_CREATED,
-            payload //el "payload" puede ser cualquier valor que se pase como argumento al llamar a esta acción
-      };
-  }
-
-    export function orderByName(payload){
-      return {
-            type: ORDER_BY_NAME,
-            payload //el "payload" puede ser cualquier valor que se pase como argumento al llamar a esta acción
-      }
-    }
-
-    export function orderByScore(payload) {
-      return {
-          type: 'ORDER_BY_SCORE',
-          payload
-      }
-  };
-
+    //get details
     export const getDetails = (idRecipes) => {
       return async function (dispatch) {
         const response = await axios.get(`http://localhost:3001/recipes/${idRecipes}`);
@@ -125,6 +85,73 @@ export const getNameRecipes = (name) => {
         });
       };
     };
+
+    //remove (si quisera borrar desde el front) //Tengo que exportar  REMOVE_RECIP
+        //get details
+        // export const removeRecipes = (idRecipes) => {
+        //   return async function (dispatch) {
+        //  try{
+        //     const response = await axios.get(`http://localhost:3001/recipes/${idRecipes}`);
+        //     dispatch({
+        //       type: REMOVE_RECIP,
+        //       payload: response.data,
+        //     });
+        //   } catch (error) {
+        //  console.log(error.message);
+        // };
+        //}
+        //}
+
+    //Clean Data
+    export const cleanData = () => {
+      return { type: CLEAN_DATA };
+    };
+ 
+
+    //post Recipes
+    // export const postRecipes = (form) => {
+    //   form.steps = form.steps.split(',').map((step) => step.trim()); 
+    //Transformo steps, para dividir el valor en un arreglo de pasos, que están separados por comas. Luego con el método map() itero sobre cada paso y trim() para eliminar los espacios en blanco al principio y al final de cada paso. Los pasos modificados se asignan nuevamente a la propiedad steps del objeto form.
+    //   return async (dispatch) => {
+    //     const response = await axios.post(`http://localhost:3001/recipes`, form);
+    //     return response;
+    //   };
+    // };
+    
+  
+  //Filter diets
+    export function filterRecipesByDiets(payload){
+      return{
+            type: FILTER_BY_DIETS,
+            payload 
+        }
+    }
+
+    //filter created
+    export function filterCreated(payload) {
+      return {
+            type: FILTER_CREATED,
+            payload 
+      };
+  }
+
+  //filter order 
+    export function orderByName(payload){
+      return {
+            type: ORDER_BY_NAME,
+            payload 
+      }
+    }
+
+    //filter score
+    export function orderByScore(payload) {
+      return {
+          type: 'ORDER_BY_SCORE',
+          payload
+      }
+  };
+
+
 
 
 

@@ -10,5 +10,7 @@ dietsRouter.get('/', getDiets);
 // dietsRouter.put('/', putDiets);
 // dietsRouter.delete('/', deleteDiets);
 
+//se configuran las rutas y se asocian con las funciones de los handler correspondientes. 
+//Cada llamada a método (get, post, delete, etc.) se hace en el objeto recipesRouter y se especifica la ruta y la función de handler correspondiente.
 
 module.exports = dietsRouter;

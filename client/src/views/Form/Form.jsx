@@ -22,9 +22,8 @@ const Form = () => {
     steps: null,
   });
 
-  const [redirectToThank, setRedirectToThank] = useState(false);
+  const [redirectToThank, setRedirectToThank] = useState(false); 
   const [hasErrors, setHasErrors] = useState(false);
-
 
 
   const validate = (form) => {
