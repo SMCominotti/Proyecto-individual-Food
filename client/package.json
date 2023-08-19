@@ -15,16 +15,16 @@
     "react-scripts": "4.0.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.4.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-refresh": "^0.8.3"
   },
-{
-  "name": "my-package",
   "scripts": {
-    "build": "yarn",
-    "test": "jest"
-  }
-}
-    "eslintConfig": {
+    "start": "react-scripts start --fast-refresh",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
@@ -41,8 +41,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "react-refresh": "^0.8.3"
   }
 }
