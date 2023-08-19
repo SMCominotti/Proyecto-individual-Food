@@ -17,13 +17,14 @@
     "redux-thunk": "^2.4.2",
     "web-vitals": "^2.1.4"
   },
+{
+  "name": "my-package",
   "scripts": {
-    "start": "react-scripts start --fast-refresh",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
+    "build": "babel src -d lib",
+    "test": "jest"
+  }
+}
+    "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
