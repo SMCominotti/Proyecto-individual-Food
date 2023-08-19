@@ -20,7 +20,7 @@
 {
   "name": "my-package",
   "scripts": {
-    "build": "babel src -d lib",
+    "build": "yarn",
     "test": "jest"
   }
 }
