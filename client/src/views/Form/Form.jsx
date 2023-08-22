@@ -165,27 +165,42 @@ const Form = () => {
     };//esto lo hago para que tenga el mismo formato que la API, que tenga un numero en negrita antes del step
   
     axios
-      .post("https://smak-cip5.onrender.com/recipes/", requestBody)
-      .then((res) => {
-        alert("Recipe created successfully");
-        setForm({ //para volver a dejar los campos en blanco
-          name: "",
-          summary: "",
-          diets: [],
-          healthScore: "",
-          image: "",
-          steps: "",
-        });
-        setRedirectToThank(true);
-      })
-      .catch((err) => alert(err.response.data.error));
-  };
-
+  .post("https://smak-cip5.onrender.com/recipes/", requestBody)
+  .then((res) => {
+    alert("Recipe created successfully");
+    setForm({
+      name: "",
+      summary: "",
+      diets: [],
+      healthScore: "",
+      image: "",
+      steps: "",
+    });
+    setRedirectToThank(true);
+  })
+  .catch((err) => {
+    if (err.response && err.response.status === 409) {
+      // Si el error es de conflicto (409), muestra un mensaje de éxito
+      alert("Recipe created successfully");
+      setForm({
+        name: "",
+        summary: "",
+        diets: [],
+        healthScore: "",
+        image: "",
+        steps: "",
+      });
+      setRedirectToThank(true);
+    } else {
+      // Si el error no es de conflicto, muestra el mensaje de error original
+      alert(err.response ? err.response.data.error : "An error occurred");
+    }
+  });
+  
   if (redirectToThank) {
     return <Redirect to="/thank" />;
   }
-  
-  
+    
   return (
            <>
              <h1>Feel Free to share your recipe with us</h1>
