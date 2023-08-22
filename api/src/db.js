@@ -2,17 +2,18 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-const { DATABASE_URL } = process.env;
+// const { PGUSER, PGPASSWORD, PGHOST,PGPORT, PGDATABASE} = process.env;
 
-if (!DATABASE_URL) {
-  throw new Error("DATABASE_URL is not defined in environment variables.");
-}
+// const sequelize = new Sequelize(`postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/food`, {
 
-const sequelize = new Sequelize(`${DATABASE_URL}`, {
-  logging: false,
-  native: false,
+// const sequelize = new Sequelize(`postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}`, {
+
+
+
+const sequelize = new Sequelize(`postgresql://postgres:PZJByp2XNsSYxb2eSc6q@containers-us-west-70.railway.app:7611/railway`,{
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
-
 
 const basename = path.basename(__filename);
 
