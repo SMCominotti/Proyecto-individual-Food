@@ -165,7 +165,7 @@ const Form = () => {
     };//esto lo hago para que tenga el mismo formato que la API, que tenga un numero en negrita antes del step
   
     axios
-      .post("http://localhost:3001/recipes/", requestBody)
+      .post("https://smak-cip5.onrender.com/recipes/", requestBody)
       .then((res) => {
         alert("Recipe created successfully");
         setForm({ //para volver a dejar los campos en blanco

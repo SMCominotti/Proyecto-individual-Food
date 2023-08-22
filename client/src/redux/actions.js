@@ -27,7 +27,8 @@ export const setLoading = (isLoading) => {
 export const getRecipes = () => {
     return async function (dispatch) {
       try {
-        const json = await axios.get(`http://localhost:3001/recipes`);
+        const json = await axios.get(`https://smak-cip5.onrender.com/recipes`)
+        //(`http://localhost:3001/recipes`);
         dispatch({
           type: GET_RECIPES,
           payload: json.data,
@@ -45,7 +46,8 @@ export const getRecipes = () => {
 export const getNameRecipes = (name) => {
     return async function (dispatch) {
       try {
-        let json = await axios.get(`http://localhost:3001/recipes?name=${name}`);
+        let json = await axios.get(`https://smak-cip5.onrender.com/recipes?name=${name}`);
+        //(`http://localhost:3001/recipes?name=${name}`);
         return dispatch({
           type: GET_NAME_RECIPES,
           payload: json.data,
@@ -64,7 +66,7 @@ export const getNameRecipes = (name) => {
   export const getDiets = () => {
     return async function (dispatch) {
       try {
-        const info = await axios.get(`http://localhost:3001/diets`);
+        const info = await axios.get(`https://smak-cip5.onrender.com/diets`);
         return dispatch({
           type: GET_DIETS,
           payload: info.data,
@@ -78,7 +80,7 @@ export const getNameRecipes = (name) => {
     //get details
     export const getDetails = (idRecipes) => {
       return async function (dispatch) {
-        const response = await axios.get(`http://localhost:3001/recipes/${idRecipes}`);
+        const response = await axios.get(`https://smak-cip5.onrender.com/recipes/${idRecipes}`);
         dispatch({
           type: GET_DETAILS,
           payload: response.data,
