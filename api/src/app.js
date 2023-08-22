@@ -17,9 +17,8 @@ server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://smak-cip5.onrender.com');
-  //'https://smak-sabores-del-alma.onrender.com');
-  
+  res.header('Access-Control-Allow-Origin', 'https://smak-sabores-del-alma.onrender.com');
+  //'https://smak-cip5.onrender.com');
   // 'http://localhost:3000'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
