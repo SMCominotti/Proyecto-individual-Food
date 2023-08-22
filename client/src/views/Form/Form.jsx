@@ -196,11 +196,14 @@ const Form = () => {
       alert(err.response ? err.response.data.error : "An error occurred");
     }
   });
-  
+}
+
+
   if (redirectToThank) {
     return <Redirect to="/thank" />;
   }
-    
+  
+  
   return (
            <>
              <h1>Feel Free to share your recipe with us</h1>
