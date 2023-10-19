@@ -27,7 +27,8 @@ export const setLoading = (isLoading) => {
 export const getRecipes = () => {
     return async function (dispatch) {
       try {
-        const json = await axios.get(`https://smak-cip5.onrender.com/recipes`)
+        const json = await axios.get
+        (`https://smak-cip5.onrender.com/recipes`)
         //(`http://localhost:3001/recipes`);
         dispatch({
           type: GET_RECIPES,
